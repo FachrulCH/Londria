@@ -23,3 +23,35 @@ LDR.onPageInit('index', function (page) {
   
 });
 
+LDR.onPageInit('layanan', function (page) {
+  
+  $$('.cartTambah').on('click',function (){
+      // ketika icon (+) di klik maka akan bertambah jumlah nya
+     var subQty = $$(this).parents('.cardLayanan').find('.subQty');
+     var qty = parseInt(subQty.text());
+     var layananHarga = $$(this).parents('.cardLayanan').find('.layananHarga');
+     var harga = layananHarga.text();
+     var subTotal = $$(this).parents('.cardLayanan').find('.subTotal');
+     
+     var newQty = qty + 1;
+     var newSubHarga = harga * newQty;
+     
+      subQty.text(newQty);
+      subTotal.text("Rp"+newSubHarga);
+      tambahCart();
+  });
+  
+  $$('.cartKurang').on('click',function (){
+     LDR.alert("Kurang"); 
+  });
+  
+});
+
+function tambahCart(){
+    
+    var badge = $$('.badge');
+    var newBadge = parseInt(badge.text())+1;
+    badge.text(newBadge);
+    badge.rippleTouchStart();
+}
+
