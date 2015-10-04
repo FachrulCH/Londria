@@ -1,0 +1,19 @@
+.swiper-slide {
+    background: #fff;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    line-height:120px;
+    text-align:center;
+}
+.swiper-slide span {
+    font-size:17px;
+}
+.swiper-container {
+    height: 13em;
+    margin: 0px 0 35px;
+}
+
+.row {
+  margin-bottom: 15px;
+  text-align: center;
+}  

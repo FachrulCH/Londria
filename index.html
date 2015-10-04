@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <!-- Color theme for statusbar -->
+        <meta name="theme-color" content="#2196f3">
+        <!-- Your app title -->
+        <title>Londria</title>
+        <!-- Path to Framework7 Library CSS, Material Theme -->
+        <link rel="stylesheet" href="css/framework7.material.css">
+        <!-- Path to Framework7 color related styles, Material Theme -->
+        <link rel="stylesheet" href="css/framework7.material.colors.css">
+        <!-- Path to your custom app styles-->
+        <link rel="stylesheet" href="css/londria.css">
+        <link rel="stylesheet" href="vendor/font-awesome-4.4.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <!-- First, we need to add Panel's overlay that will overlays app while panel is opened -->
+        <div class="panel-overlay"></div>
+        
+        <!-- Right Panel with Reveal effect -->
+        <div class="panel panel-right panel-reveal">
+            <div class="navbar theme-purple">
+                <div class="navbar-inner">
+                    <div class="right">Menu</div>
+                </div>
+            </div>
+            
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-shopping-cart fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">My Order</div>
+                            </div>
+                        </div></a>
+                    </li>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-home fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">My Address</div>
+                            </div>
+                        </div></a>
+                    </li>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-bell fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">Notification</div>
+                            </div>
+                        </div></a>
+                    </li>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-linux fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">About Us</div>
+                            </div>
+                        </div></a>
+                    </li>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-star fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">Rate App</div>
+                            </div>
+                        </div></a>
+                    </li>
+                    <li>
+                        <a href="kerangka.html" class="item-link close-panel"> 
+                        <div class="item-content">
+                            <div class="item-media"><i class="fa fa-user fa-lg"></i></div>
+                            <div class="item-inner"> 
+                                <div class="item-title">Login</div>
+                            </div>
+                        </div></a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content-block">
+              <p>Right Panel content here</p>
+              <!-- Click on link with "close-panel" class will close panel -->
+              <p><a href="#" class="close-panel">Close me</a></p>
+              <!-- Click on link with "open-panel" and data-panel="left" attribute will open Left panel -->
+              <p><a href="#" data-panel="left" class="open-panel">Open Left Panel</a></p>
+            </div>
+        </div>
+        
+        <!-- Views -->
+        <div class="views">
+            <!-- Your main view, should have "view-main" class -->
+            <div class="view view-main">
+                <div class="pages navbar-fixed">
+                    <div class="page theme-purple" data-page="index">
+                        
+                        <div class="navbar">
+                            <div class="navbar-inner">
+                                <div class="center">Londria</div>
+                                <div class="right">
+                                    <a href="#" class="link icon-only"><i class="fa fa-shopping-cart fa-lg"></i></a>
+                                    <a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="page-content">
+                            <div class="content-block-title">Welcome To Londria</div>
+                            <div class="content-block">
+                                                                
+                                <div class="swiper-container swiper-1 swiper-init" data-speed="1500" data-autoplay="3000" data-effect="coverflow" data-space-between="10" data-pagination=".swiper-pagination">
+                                  <div class="swiper-pagination"></div>
+                                  <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><span>Promo 1</span></div>
+                                    <div class="swiper-slide"><span>Promo 2</span></div>
+                                    <div class="swiper-slide"><span>Promo 3</span></div>
+                                    <div class="swiper-slide"><span>Promo 4</span></div>
+                                    <div class="swiper-slide"><span>Promo 5</span></div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-50">
+                                        <i class="fa fa-plus-circle fa-5x color-red"></i>
+                                        <h3>New Order</h3>
+                                    </div>
+                                    <div class="col-50">
+                                        <i class="fa fa-map-marker fa-5x color-pink"></i>
+                                        <h3>Store Locator</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-50">
+                                        <i class="fa fa-thumbs-o-up fa-5x color-indigo"></i>
+                                        <h3>Promosi</h3>
+                                    </div>
+                                    <div class="col-50">
+                                        <i class="fa fa-search fa-5x color-blue"></i>
+                                        <h3>Tracking Order</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-50">
+                                        <i class="fa fa-gears fa-5x color-amber"></i>
+                                        <h3>Pengaturan</h3>
+                                    </div>
+                                    <div class="col-50">
+                                        <i class="fa fa-info-circle fa-5x color-deeporange"></i>
+                                        <h3>Bantuan</h3>
+                                    </div>
+                                </div>
+                                <a href="kerangka.html">Kerangka</a>
+                               
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Path to Framework7 Library JS-->
+        <script type="text/javascript" src="js/framework7.js"></script>
+        <!-- Path to your app js-->
+        <script type="text/javascript" src="js/londria.js"></script>
+    </body>
+</html>
