@@ -1,0 +1,2 @@
+# Londria
+Skripsinya @FachrulCh
