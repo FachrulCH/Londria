@@ -2,15 +2,20 @@
     background: #fff;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    line-height:90px;
+    line-height:20vh;
     text-align:center;
 }
 .swiper-slide span {
     font-size:17px;
 }
+
+.swiper-slide img {
+    height: 25vh;
+}
+
 .swiper-container {
-    height: 150px;
-    margin: 0px 0 35px;
+    height: 25vh;
+    margin: 0 0 5vw;
 }
 
 .row {

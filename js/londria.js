@@ -18,7 +18,7 @@ var mainView = LDR.addView('.view-main', {
  
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
 LDR.onPageInit('index', function (page) {
-  // Do something here for "about" page
+  // Do something here for page
   LDR.alert("Hai coy");
   
 });
@@ -52,6 +52,12 @@ function tambahCart(){
     var badge = $$('.badge');
     var newBadge = parseInt(badge.text())+1;
     badge.text(newBadge);
-    badge.rippleTouchStart();
 }
 
+function keBeranda(){
+    mainView.router.loadPage('index.html');
+}
+
+function keLayanan(){
+    mainView.router.loadPage('pg-layanan.html');
+}
