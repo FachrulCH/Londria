@@ -1,4 +1,4 @@
-<div class="page" data-page="layanan-detail">
+<div class="page" data-page="layananDetail">
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left">
@@ -66,6 +66,9 @@
             
             <div class="tab" id="tab_tju" >
                 <div class="content-block-title">Tanya Jawab Umum (TJU)</div>
+                <div id="dataTmpl">ALUL {{#each employees}}
+            <p>Hello, my name is {{firstName}} and i am {{lastName}} years old</p>
+            {{/each}}</div>
                 <div class="list-block accordion-list">
                     <ul>
                         <li class="accordion-item accordion-item-expanded">

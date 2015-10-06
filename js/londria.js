@@ -6,7 +6,8 @@ var LDR = new Framework7({
     materialPageLoadDelay: 200,
     sortable: false,
     pushState: true,
-    pushStateSeparator: '#fch/'
+    pushStateSeparator: '#fch/',
+    precompileTemplates: true
 });
 
 // If we need to use custom DOM library, let's save it to $$ variable:
@@ -16,8 +17,6 @@ var $$ = Dom7;
 var mainView = LDR.addView('.view-main', {
   
 });
-
-// Now we need to run the code that will be executed only for About page.
  
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
 LDR.onPageInit('index', function (page) {
@@ -27,6 +26,16 @@ LDR.onPageInit('index', function (page) {
 });
 
 LDR.onPageInit('layanan', function (page) {
+        var text = 
+     '{ "employees" : [' +
+        '{ "firstName":"John" , "lastName":"Doe" },' +
+        '{ "firstName":"Anna" , "lastName":"Smith" },' +
+        '{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+    var datanya = JSON.parse(text);
+
+    // Render person template to HTML, its template is already compiled and accessible as Template7.templates.personTemplate
+    var personHTML = Template7.templates.personTemplate(datanya);
+    $$('#templ').html(personHTML);
   
   $$('.cartTambah').on('click',function (){
       // ketika icon (+) di klik maka akan bertambah jumlah nya
@@ -48,6 +57,19 @@ LDR.onPageInit('layanan', function (page) {
      LDR.alert("Kurang"); 
   });
   
+});
+
+LDR.onPageInit('layananDetail', function (page) {
+     var text = 
+     '{ "employees" : [' +
+        '{ "firstName":"Alul" , "lastName":"FCH" },' +
+        '{ "firstName":"Bahur" , "lastName":"HDY" },' +
+        '{ "firstName":"Cecep" , "lastName":"PEA" } ]}';
+    var datanya = JSON.parse(text);
+
+    // Render person template to HTML, its template is already compiled and accessible as Template7.templates.personTemplate
+    var personHTML = Template7.templates.personTemplate(datanya);
+    $$('#dataTmpl').html(personHTML);
 });
 
 LDR.onPageInit('profil', function (page) {
