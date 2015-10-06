@@ -3,7 +3,10 @@
 var LDR = new Framework7({
     modalTitle: "Londria",
     material: true,
-    materialPageLoadDelay: 200
+    materialPageLoadDelay: 200,
+    sortable: false,
+    pushState: true,
+    pushStateSeparator: '#fch/'
 });
 
 // If we need to use custom DOM library, let's save it to $$ variable:
@@ -45,6 +48,25 @@ LDR.onPageInit('layanan', function (page) {
      LDR.alert("Kurang"); 
   });
   
+});
+
+LDR.onPageInit('profil', function (page) {
+  // ambil data dari localStorage
+    var storedData = LDR.formGetData('#form_profil');
+    if(storedData) {
+        //alert(JSON.stringify(storedData));
+        //masukan data json ke dalam form
+        LDR.formFromJSON('#form_profil',storedData);
+    }
+  
+  $$('.btn_simpanForm').on('click',function (){
+      var formData = LDR.formToJSON('#form_profil');
+      
+      //simpan ke localStorage
+      LDR.formStoreData('#form_profil',formData);
+      LDR.alert("Data tersimpan");
+  });
+
 });
 
 function tambahCart(){
