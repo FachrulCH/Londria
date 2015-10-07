@@ -18,8 +18,7 @@ var $$ = Dom7;
 var CONFIG = CONFIG || {};
 
 // Add view
-var mainView = LDR.addView('.view-main', {
-});
+var mainView = LDR.addView('.view-main', {});
 
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
 LDR.onPageInit('index', function (page) {
@@ -96,6 +95,84 @@ LDR.onPageInit('profil', function (page) {
     });
 
 });
+
+LDR.onPageInit('keranjang', function (page) {
+    // untuk menentukan listitem mana yg di klik tidak bisa menggunakan variabel 'this'
+    // karena .itemHapus berada di index.html, bukan di dalam list tersebut
+    // jadi perlu di tampund di suatu variabel dalam pg-keranjang ini
+    
+    var itemId = "";
+    var itemIni = "";
+    var sysdate = new Date();
+    
+    // membuat picker Jumlah
+    var pickerDevice = LDR.picker({
+        cols: [
+            {
+                textAlign: 'center',
+                values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+            }
+        ],
+        onClose: function(p){
+            var nilai = p.value;
+            // setelah di dapat nilai baru
+
+            //console.log(nilai);
+            // masukan nilai baru ke element jumlah/update database
+            itemIni.find('.itemQty').text(nilai);
+            
+        }
+    }); 
+    
+    // Membuat tanggal
+    var kalender = LDR.calendar({
+        input: '.itemKalender',
+        dateFormat: 'D, dd-M-yyyy',
+        toolbarCloseText: 'Pilih',
+        minDate: sysdate.setDate(sysdate.getDate() - 1), //minimum hari ini
+        maxDate: sysdate.setDate(sysdate.getDate() + 30)
+    });
+    
+    
+    
+    $$('.popOpsi').on('click',function(){
+        //overite variabel global itemId
+        itemId = $$(this).parents('.item-content').find('.item-title').text();
+        itemIni = $$(this).parents('.item-content');
+        
+        //console.log(itemId);
+        var clickedLink = this;
+        LDR.popover('.popoverOpsi', clickedLink);
+    });
+    
+    // class ItemHapus adanya di index.html
+    $$('.itemHapus').on('click', function () {
+        
+        LDR.closeModal(); // menutup popoverOpsi
+        LDR.confirm('Apakah kamu yakin?', 'Hapus Item',
+                function () {
+                    itemIni.hide(); //proses hapus
+                    LDR.alert(itemId +' Dihapus');
+                },
+                function () {
+                    LDR.alert('You clicked Cancel button');
+                }
+        );
+    });
+    
+    
+    $$('.itemUbahJum').on('click',function(){
+       LDR.closeModal(); // menutup popoverOpsi
+       
+       // dibuat timeout agar syncronus setelah elemen muncul
+        setTimeout(function(){
+            pickerDevice.open();
+        },10);
+        
+        
+    });
+});
+
 
 function tambahCart() {
 
