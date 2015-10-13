@@ -1,5 +1,7 @@
 // Initialize app
-//var LDR = new Framework7();
+//======================================
+//         variabel awal
+//======================================
 var LDR = new Framework7({
     modalTitle: "Londria",
     material: true,
@@ -7,7 +9,8 @@ var LDR = new Framework7({
     sortable: false,
     pushState: true,
     pushStateSeparator: '#fch/',
-    precompileTemplates: true
+    //precompileTemplates: true
+    template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
 });
 
 // If we need to use custom DOM library, let's save it to $$ variable:
@@ -15,27 +18,53 @@ var $$ = Dom7;
 
 // default nilai variabel global jika belum di definisikan
 // setting di file js/config.js
-var CONFIG = CONFIG || {};
+var CONFIG = {
+  url: 'http://localhost/londriaServer'
+};
 
 // Add view
 var mainView = LDR.addView('.view-main', {});
 
-// Option 1. Using page callback for page (for "about" page in this case) (recommended way):
+//====================================== 
+//         Class Variabel
+//======================================
+window.Keranjang = {
+   stok: 0,
+   tambah: function(qty){
+       this.stok += qty;
+       return "tambah";
+   },
+   kurang: function(qty){
+       this.stok -= qty;
+       return "kurang";
+   }
+};
+
+
+//====================================== 
+// setelah aplikasi di inisialisasi, ambil data layanan dari server
+//======================================
+
+// cek dlu klo belum ada ambil dari server
+if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null){
+    $$.post(CONFIG.url+'/layanan.json', {}, function (data) {
+        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data);
+    });
+}
+
+//======================================
+// Meload JavaScript di page tertentu
+// LDR.onPageInit('namaDataPage', function (page) {})
+//======================================
+
 LDR.onPageInit('index', function (page) {
     // Do something here for page
     LDR.alert("Hai coy");
 
 });
 
-LDR.onPageInit('layanan', function (page) {
-    // Ambil data layanan dari server
-    $$.post(CONFIG.url+'/layanan.json', {}, function (data) {
-        var layananHTML = Template7.templates.layananTemplate(JSON.parse(data));
-        $$('#targetId').html(layananHTML);
-    });
-});
-
-LDR.onPageAfterAnimation('layanan', function (page) {
+//======================================
+LDR.onPageInit('pgLayananDetail', function (page) {
     
     // event klik ga berlaku kalo di definisikan sebelum node ada di dalam DOM
     // Makanya Pasang event listener setelah template7 merender kedalam DOM
@@ -58,26 +87,10 @@ LDR.onPageAfterAnimation('layanan', function (page) {
     $$('.cartKurang').on('click', function () {
         LDR.alert("Kurang");
     });
-
 });
 
-
-LDR.onPageInit('layananDetail', function (page) {
-    setTimeout(function(){
-    var text =
-            '{ "employees" : [' +
-            '{ "firstName":"Alul" , "lastName":"FCH" },' +
-            '{ "firstName":"Bahur" , "lastName":"HDY" },' +
-            '{ "firstName":"Cecep" , "lastName":"PEA" } ]}';
-    var datanya = JSON.parse(text);
-
-    // Render person template to HTML, its template is already compiled and accessible as Template7.templates.personTemplate
-    var personHTML = Template7.templates.personTemplate(datanya);
-    $$('#dataTmpl').html(personHTML);
-},8000);
-});
-
-LDR.onPageInit('profil', function (page) {
+//======================================
+LDR.onPageInit('pgProfil', function (page) {
     // ambil data dari localStorage
     var storedData = LDR.formGetData('#form_profil');
     if (storedData) {
@@ -96,7 +109,8 @@ LDR.onPageInit('profil', function (page) {
 
 });
 
-LDR.onPageInit('keranjang', function (page) {
+//======================================
+LDR.onPageInit('pgKeranjang', function (page) {
     // untuk menentukan listitem mana yg di klik tidak bisa menggunakan variabel 'this'
     // karena .itemHapus berada di index.html, bukan di dalam list tersebut
     // jadi perlu di tampund di suatu variabel dalam pg-keranjang ini
@@ -174,6 +188,7 @@ LDR.onPageInit('keranjang', function (page) {
 });
 
 
+//======================================
 function tambahCart() {
 
     var badge = $$('.badge');
