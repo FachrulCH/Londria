@@ -1,4 +1,4 @@
-<div class="page" data-page="layanan">
+<div class="page" data-page="pgLayanan">
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left">
@@ -12,13 +12,28 @@
         </div>
     </div>
     <div class="page-content hide-bars-on-scroll">
-        <div class="content-block-title">Pilih layanan Londria 
+        <div class="content-block-title">Pilih layanan Londria </div>
         <div class="content-block">
-            <div id="targetId">ADA DISINI</div>
+             {{#each layanan}}
+                    
+            <div class="card ldr-card-header-pic cardLayanan">
+                <a href ="pg-layanan-detail.html">`
+                <div style="background-image:url(img/{{fotoLayanan}})" valign="bottom" class="card-header color-white no-border">Detail...</div>
+                </a>
+                <div class="card-content"> 
+                    <div class="card-content-inner"> 
+                        <p class="color-gray">{{namaLayanan}} - Rp <span class="layananHarga">{{hargaLayanan}}</span>/pc</p>
+                        <p>{{detailLayanan}}</p>
+                    </div>
+                </div>
+                <div class="card-footer"><span class="subTotal"></span><a href="#" class="link cartKurang"><i class="fa fa-minus-circle fa-lg"></i></a><span class="subQty">0</span><a href="#" class="link cartTambah"><i class="fa fa-plus-circle fa-lg"></i></a></div>
+            </div>
+    
+            {{/each}}
                         
             <div class="card ldr-card-header-pic cardLayanan">
                 <a href ="pg-layanan-detail.html">`
-                <div style="background-image:url(img/laundry_basket.png)" valign="bottom" class="card-header color-white no-border">Detail...</div>
+                <div style="background-image:url(img/laundry_basket.png)" valign="bottom" class="card-header color-white no-border">Template...</div>
                 </a>
                 <div class="card-content"> 
                     <div class="card-content-inner"> 
