@@ -25,21 +25,83 @@ var CONFIG = {
 // Add view
 var mainView = LDR.addView('.view-main', {});
 
+// alias buat localforage
+var db = localforage || {};
+
 //====================================== 
 //         Class Variabel
 //======================================
+
+// Konstruktor model
 window.Keranjang = {
-   stok: 0,
-   tambah: function(qty){
-       this.stok += qty;
-       return "tambah";
-   },
-   kurang: function(qty){
-       this.stok -= qty;
-       return "kurang";
-   }
+    "userId": "001",
+    "totalQty": 0,
+    "totalHarga": 0,
+    "barang": [],
+    "penjemputan": {
+        "alamat": "",
+        "jam": ""
+    },
+    "pengantaran": {
+        "alamat": "",
+        "jam": ""
+    }
 };
 
+// method controler
+var KJG = {
+    tambah: function(that){
+        var barangnih = new barang(that,"tambah");
+        console.log(barangnih);
+    },
+    kurang: function (that){
+        var barangnih = new barang(that,"kurang");
+        console.log(barangnih);
+    },
+    refresh: function (){
+        var badge = $$('.KRJtotal');
+        //console.log(badge);
+        badge.text(Keranjang.totalQty);
+    }
+};
+
+var barang = function(that,varOprator){
+    this.selector   = $$(that).parents('.cardLayanan');
+    this.idLayanan  = this.selector.dataset('idLayanan').idlayanan;
+    this.hargaSatuan = parseInt(this.selector.find('.layananHarga').text());
+    this.subTotal;
+    this.subQty;
+    this.oprator = varOprator;
+    this.doing    = function (operator){
+        if(operator === 'tambah'){
+            this.subQty = parseInt(this.selector.find('.subQty').text())+1;
+            this.selector.find('.subQty').text(this.subQty);    //==> update label
+            this.subTotal = this.hargaSatuan * this.subQty;
+            this.selector.find('.subTotal').text(this.subTotal); //==> update label
+            Keranjang.totalQty += 1;
+            return "ditambahkan";
+        }else{
+            this.subQty = parseInt(this.selector.find('.subQty').text())-1;
+            if (this.subQty < 0){
+                LDR.alert("Keranjang anda kosong");
+                return false;
+            }
+            this.selector.find('.subQty').text(this.subQty);    //==> update label
+            this.subTotal = this.hargaSatuan * this.subQty;
+            this.selector.find('.subTotal').text(this.subTotal); //==> update label
+            Keranjang.totalQty -= 1;
+            return "dikurangi";
+        }
+    };
+    
+    return{
+      idLayanan: this.idLayanan,
+      operasi: this.doing(this.oprator),
+      hargaSatuan:this.hargaSatuan,
+      subTotal: this.subTotal,
+      subQty: this.subQty
+    };
+};
 
 //====================================== 
 // setelah aplikasi di inisialisasi, ambil data layanan dari server
@@ -64,28 +126,34 @@ LDR.onPageInit('index', function (page) {
 });
 
 //======================================
-LDR.onPageInit('pgLayananDetail', function (page) {
+LDR.onPageInit('pgLayanan', function (page) {
     
     // event klik ga berlaku kalo di definisikan sebelum node ada di dalam DOM
     // Makanya Pasang event listener setelah template7 merender kedalam DOM
-    $$('.cartTambah').on('click', function () {
-        // ketika icon (+) di klik maka akan bertambah jumlah nya
-        var subQty = $$(this).parents('.cardLayanan').find('.subQty');
-        var qty = parseInt(subQty.text());
-        var layananHarga = $$(this).parents('.cardLayanan').find('.layananHarga');
-        var harga = layananHarga.text();
-        var subTotal = $$(this).parents('.cardLayanan').find('.subTotal');
+//    $$('.cartTambah').on('click', function () {
+//        // ketika icon (+) di klik maka akan bertambah jumlah nya
+//        var subQty = $$(this).parents('.cardLayanan').find('.subQty');
+//        var qty = parseInt(subQty.text());
+//        var layananHarga = $$(this).parents('.cardLayanan').find('.layananHarga');
+//        var harga = layananHarga.text();
+//        var subTotal = $$(this).parents('.cardLayanan').find('.subTotal');
+//
+//        var newQty = qty + 1;
+//        var newSubHarga = harga * newQty;
+//
+//        subQty.text(newQty);
+//        subTotal.text("Rp" + newSubHarga);
+//        tambahCart();
+//    });
 
-        var newQty = qty + 1;
-        var newSubHarga = harga * newQty;
-
-        subQty.text(newQty);
-        subTotal.text("Rp" + newSubHarga);
-        tambahCart();
+    $$('.KRJtambah').on('click', function () {
+        KJG.tambah(this);
+        KJG.refresh();
     });
-
-    $$('.cartKurang').on('click', function () {
-        LDR.alert("Kurang");
+    
+    $$('.KRJkurang').on('click', function () {
+        KJG.kurang(this);
+        KJG.refresh();
     });
 });
 
@@ -189,12 +257,6 @@ LDR.onPageInit('pgKeranjang', function (page) {
 
 
 //======================================
-function tambahCart() {
-
-    var badge = $$('.badge');
-    var newBadge = parseInt(badge.text()) + 1;
-    badge.text(newBadge);
-}
 
 function keBeranda() {
     mainView.router.loadPage('index.html');
