@@ -26,7 +26,11 @@ var CONFIG = {
 var mainView = LDR.addView('.view-main', {});
 
 // alias buat localforage
+//http://mozilla.github.io/localForage/
 var db = localforage || {};
+db.config({
+    name: 'dbLondria'
+});
 
 //====================================== 
 //         Class Variabel
@@ -48,24 +52,41 @@ window.Keranjang = {
     }
 };
 
+    
 // method controler
-var KJG = {
+var KeranjangCTL = {
     tambah: function(that){
-        var barangnih = new barang(that,"tambah");
-        console.log(barangnih);
+        var Barangnih = new Barang(that,"tambah");
+        replaceBarang(Barangnih);
+        //console.log(Barangnih);
     },
     kurang: function (that){
-        var barangnih = new barang(that,"kurang");
-        console.log(barangnih);
+        var Barangnih = new Barang(that,"kurang");
+        replaceBarang(Barangnih);
+        //console.log(Barangnih);
     },
     refresh: function (){
         var badge = $$('.KRJtotal');
         //console.log(badge);
-        badge.text(Keranjang.totalQty);
+        badge.text(parseInt(Keranjang.totalQty));
+        if (Keranjang.totalQty === 0){
+            var badge = $$('.keKeranjang').hide();
+        }else{
+        
+            if($$('.keKeranjang').css('display') === 'none'){ 
+                $$('.keKeranjang').show();
+             }
+        }
+    },
+    simpan: function (){
+        db.setItem('keranjang', Keranjang).then(
+                LDR.alert("berhasil tersimpan")
+                );
     }
 };
 
-var barang = function(that,varOprator){
+
+var Barang = function(that,varOprator){
     this.selector   = $$(that).parents('.cardLayanan');
     this.idLayanan  = this.selector.dataset('idLayanan').idlayanan;
     this.hargaSatuan = parseInt(this.selector.find('.layananHarga').text());
@@ -93,7 +114,7 @@ var barang = function(that,varOprator){
             return "dikurangi";
         }
     };
-    
+    // untuk masuk ke objek keranjang
     return{
       idLayanan: this.idLayanan,
       operasi: this.doing(this.oprator),
@@ -119,13 +140,35 @@ if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.templ
 // LDR.onPageInit('namaDataPage', function (page) {})
 //======================================
 
+//We can also add callback for all pages:
+LDR.onPageBeforeAnimation('*', function (page) {
+    console.log("semuanya");
+    if (Keranjang.totalQty === 0) {
+        //Jika keranjang kosong/baru masuk menu, ambil data dari db
+        db.getItem('keranjang').then(function (value) {
+            if (value !== null){
+                Keranjang = value; // malukan data db ke objek keranjang
+                console.log("keranjang ada isi" + value);
+            }
+            //console.log("kosong keranjang" + value);
+        }).catch(function (err) {
+            // oh noes! we got an error
+            console.log(err);
+        });
+    }
+    setTimeout(function () {
+        KeranjangCTL.refresh();
+    }, 100);
+});
+
 LDR.onPageInit('index', function (page) {
     // Do something here for page
     LDR.alert("Hai coy");
 
 });
 
-//======================================
+//================== pgLayanan ====================
+
 LDR.onPageInit('pgLayanan', function (page) {
     
     // event klik ga berlaku kalo di definisikan sebelum node ada di dalam DOM
@@ -146,15 +189,21 @@ LDR.onPageInit('pgLayanan', function (page) {
 //        tambahCart();
 //    });
 
+
     $$('.KRJtambah').on('click', function () {
-        KJG.tambah(this);
-        KJG.refresh();
+        KeranjangCTL.tambah(this);
+        KeranjangCTL.refresh();
     });
     
     $$('.KRJkurang').on('click', function () {
-        KJG.kurang(this);
-        KJG.refresh();
+        KeranjangCTL.kurang(this);
+        KeranjangCTL.refresh();
     });
+});
+
+LDR.onPageBeforeRemove('pgLayanan', function (page) {
+    //LDR.alert("proses save");
+    console.log("save disini");
 });
 
 //======================================
@@ -264,4 +313,27 @@ function keBeranda() {
 
 function keLayanan() {
     mainView.router.loadPage('pg-layanan.html');
+}
+
+//function to remove a value from the json/array
+function hapusArray(obj, prop, val) {
+    var c, found=false;
+    for(c in obj) {
+        if(obj[c][prop] === val) {
+            found=true;
+            break;
+        }
+    }
+    if(found){
+        //delete obj[c]; malah undefined
+        obj.splice(c, 1);
+    }
+}
+
+function replaceBarang(Barang){
+    var idLay = Barang.idLayanan;
+    //hapus barang dari keranjang
+    hapusArray(Keranjang.barang,'idLayanan',idLay);
+    //masukan barang ke keranjang lagi
+    Keranjang.barang.push(Barang);
 }
