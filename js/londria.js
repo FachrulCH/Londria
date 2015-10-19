@@ -89,6 +89,15 @@ var KeranjangCTL = {
         db.setItem('keranjang', Keranjang).then(
                 LDR.alert("berhasil tersimpan")
                 );
+    },
+    reload: function(){
+        var barangDlmKeranjang = Keranjang.barang;
+        $$.each(barangDlmKeranjang, function (index, value){
+            var barang = new Barang();
+            barang.getFromBarang(barangDlmKeranjang[index]);
+            barang.setLabel();
+        });
+        
     }
 };
 
@@ -122,15 +131,24 @@ Barang.prototype.doing    = function (operator){
     }
 };
 Barang.prototype.getProp = function(that){
-    this.selector   = $$(that).parents('.cardLayanan');
-    this.idLayanan  = this.selector.dataset('idLayanan').idlayanan;
-    this.hargaSatuan = parseInt(this.selector.find('.layananHarga').text());
-    this.subQty = parseInt(this.selector.find('.subQty').text());
+    this.selector           = $$(that).parents('.cardLayanan');
+    this.idLayanan          = this.selector.data('idLayanan');
+    this.hargaSatuan        = parseInt(this.selector.find('.layananHarga').text());
+    this.subQty             = parseInt(this.selector.find('.subQty').text());
 };
 Barang.prototype.setLabel = function(){
     this.selector.find('.subQty').text(this.subQty);    //==> update label
     this.selector.find('.subTotal').text(this.subTotal); //==> update label
 };
+
+Barang.prototype.getFromBarang = function(barang){
+    this.selector       = $$('[data-idLayanan="'+ barang.idLayanan +'"]');
+    this.idLayanan      = barang.idLayanan;
+    this.hargaSatuan    = barang.hargaSatuan;
+    this.subTotal       = barang.subTotal;
+    this.subQty         = barang.subQty;
+};
+
 // untuk masuk ke objek keranjang
 Barang.prototype.isi = function(){
     return{
@@ -189,6 +207,8 @@ LDR.onPageInit('index', function (page) {
 
 LDR.onPageInit('pgLayanan', function (page) {
 
+    KeranjangCTL.reload();
+    
     $$('.KRJtambah').on('click', function () {
         KeranjangCTL.tambah(this);
         KeranjangCTL.refresh();
