@@ -11,7 +11,18 @@ var LDR = new Framework7({
     pushStateSeparator: '#fch/',
     //precompileTemplates: true
     template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
-});
+    });
+
+var LDRswiper = LDR.swiper('.swiper-container', {
+    pagination:'.swiper-pagination',
+    paginationClickable: true,
+    autoplay: 3000,
+    speed: 1500,
+    effect: "coverflow",
+    spaceBetween: 10,
+    preloadImages: false,
+    lazyLoading: true
+  });
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
@@ -55,72 +66,72 @@ window.Keranjang = {
     
 // method controler
 var KeranjangCTL = {
-    tambah: function(that){
+    tambah: function (that) {
         var Barangnih = new Barang();
         Barangnih.getProp(that);
         Barangnih.doing('tambah');
         window.barangnya = Barangnih.isi();
-        
-        replaceBarang(barangnya);
+
+        func_replaceBarang(barangnya);
         //console.log("barangnya" +barangnya);
     },
-    kurang: function (that){
+    kurang: function (that) {
         var Barangnih = new Barang();
         Barangnih.getProp(that);
         Barangnih.doing('kurangi');
         window.barangnya = Barangnih.isi();
-        
-        replaceBarang(barangnya);
+
+        func_replaceBarang(barangnya);
     },
-    refresh: function (){
+    refresh: function () {
         var badge = $$('.KRJtotal');
         //console.log(badge);
         badge.text(parseInt(Keranjang.totalQty));
-        if (Keranjang.totalQty === 0){
+        if (Keranjang.totalQty === 0) {
             var badge = $$('.keKeranjang').hide();
-        }else{
-        
-            if($$('.keKeranjang').css('display') === 'none'){ 
+        } else {
+
+            if ($$('.keKeranjang').css('display') === 'none') {
                 $$('.keKeranjang').show();
-             }
+            }
         }
     },
-    simpan: function (){
+    simpan: function () {
         db.setItem('keranjang', Keranjang).then(
                 LDR.alert("berhasil tersimpan")
                 );
     },
-    reload: function(){
+    reload: function () {
         var barangDlmKeranjang = Keranjang.barang;
-        $$.each(barangDlmKeranjang, function (index, value){
+        $$.each(barangDlmKeranjang, function (index, value) {
             var barang = new Barang();
             barang.getFromBarang(barangDlmKeranjang[index]);
             barang.setLabel();
         });
-        
+
     }
 };
 
 
-var Barang = function(){
+var Barang = function () {
     this.selector;
     this.idLayanan;
     this.hargaSatuan;
     this.subTotal;
     this.subQty;
-    };
-    
-Barang.prototype.doing    = function (operator){
-    if(operator === 'tambah'){
+};
+
+Barang.prototype.doing = function (operator) {
+    if (operator === 'tambah') {
         this.subQty += 1;
         this.subTotal = this.hargaSatuan * this.subQty;
         this.setLabel();
         Keranjang.totalQty += 1;
         //console.log("tambah dari"+this.isi());
         return "ditambahkan";
-    }else{
+    } else {
         this.subQty -= 1;
-        if (this.subQty < 0){
+        if (this.subQty < 0) {
             LDR.alert("Keranjang anda kosong");
             return false;
         }
@@ -130,35 +141,75 @@ Barang.prototype.doing    = function (operator){
         return "dikurangi";
     }
 };
-Barang.prototype.getProp = function(that){
-    this.selector           = $$(that).parents('.cardLayanan');
-    this.idLayanan          = this.selector.data('idLayanan');
-    this.hargaSatuan        = parseInt(this.selector.find('.layananHarga').text());
-    this.subQty             = parseInt(this.selector.find('.subQty').text());
+Barang.prototype.getProp = function (that) {
+    this.selector = $$(that).parents('.cardLayanan');
+    this.idLayanan = this.selector.data('idLayanan');
+    this.hargaSatuan = parseInt(this.selector.find('.layananHarga').text());
+    this.subQty = parseInt(this.selector.find('.subQty').text());
 };
-Barang.prototype.setLabel = function(){
+Barang.prototype.setLabel = function () {
     this.selector.find('.subQty').text(this.subQty);    //==> update label
     this.selector.find('.subTotal').text(this.subTotal); //==> update label
 };
 
-Barang.prototype.getFromBarang = function(barang){
-    this.selector       = $$('[data-idLayanan="'+ barang.idLayanan +'"]');
-    this.idLayanan      = barang.idLayanan;
-    this.hargaSatuan    = barang.hargaSatuan;
-    this.subTotal       = barang.subTotal;
-    this.subQty         = barang.subQty;
+Barang.prototype.getFromBarang = function (barang) {
+    this.selector = $$('[data-idLayanan="' + barang.idLayanan + '"]');
+    this.idLayanan = barang.idLayanan;
+    this.hargaSatuan = barang.hargaSatuan;
+    this.subTotal = barang.subTotal;
+    this.subQty = barang.subQty;
 };
 
 // untuk masuk ke objek keranjang
-Barang.prototype.isi = function(){
+Barang.prototype.isi = function () {
     return{
-      idLayanan: this.idLayanan,
-      hargaSatuan:this.hargaSatuan,
-      subTotal: this.subTotal,
-      subQty: this.subQty
+        idLayanan: this.idLayanan,
+        hargaSatuan: this.hargaSatuan,
+        subTotal: this.subTotal,
+        subQty: this.subQty
     };
 };
 
+
+
+/*************************************
+                Function
+*************************************/
+
+function keLayanan() {
+    mainView.router.loadPage('pg-layanan.html');
+}
+
+//function to remove a value from the json/array
+function hapusArray(obj, prop, val) {
+    var c, found=false;
+    for(c in obj) {
+        if(obj[c][prop] === val) {
+            found=true;
+            break;
+        }
+    }
+    if(found){
+        //delete obj[c]; malah undefined
+        obj.splice(c, 1);
+    }
+}
+
+function func_replaceBarang(Barang){
+    var idLay = Barang.idLayanan;
+    //hapus barang dari keranjang
+    hapusArray(Keranjang.barang,'idLayanan',idLay);
+    
+    //masukan barang ke keranjang lagi
+    if(Barang.subQty > 0){
+        Keranjang.barang.push(Barang);
+    }
+}
+
+function pop_OpsiPromo(that){
+    //myApp.popover(popover, target)
+    LDR.popover('.popover_promo',that);
+}
 
 //====================================== 
 // setelah aplikasi di inisialisasi, ambil data layanan dari server
@@ -169,6 +220,7 @@ if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.templ
     $$.post(CONFIG.url+'/layanan.json', {}, function (data) {
         LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data);
     });
+    console.log("get data layanan json");
 }
 
 //======================================
@@ -178,15 +230,15 @@ if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.templ
 
 //We can also add callback for all pages:
 LDR.onPageBeforeAnimation('*', function (page) {
-    console.log("semuanya");
+    //console.log("semuanya");
     if (Keranjang.totalQty === 0) {
-        //Jika keranjang kosong/baru masuk menu, ambil data dari db
+
+        //Jika keranjang kosong/baru masuk menu, ambil data dari db, tabel keranjang
         db.getItem('keranjang').then(function (value) {
-            if (value !== null){
-                Keranjang = value; // malukan data db ke objek keranjang
-                console.log("keranjang ada isi" + value);
+            if (value !== null) {
+                Keranjang = value; // masukan data db ke objek keranjang
+                console.log("ambil data dari db");
             }
-            //console.log("kosong keranjang" + value);
         }).catch(function (err) {
             // oh noes! we got an error
             console.log(err);
@@ -194,14 +246,9 @@ LDR.onPageBeforeAnimation('*', function (page) {
     }
     setTimeout(function () {
         KeranjangCTL.refresh();
-    }, 100);
+    }, 10);
 });
 
-LDR.onPageInit('index', function (page) {
-    // Do something here for page
-    LDR.alert("Hai coy");
-
-});
 
 //================== pgLayanan ====================
 
@@ -222,7 +269,7 @@ LDR.onPageInit('pgLayanan', function (page) {
 
 LDR.onPageBeforeRemove('pgLayanan', function (page) {
     //LDR.alert("proses save");
-    console.log("save disini");
+    console.log("proses save disini");
 });
 
 //======================================
@@ -287,7 +334,7 @@ LDR.onPageInit('pgKeranjang', function (page) {
     
     $$('.popOpsi').on('click',function(){
         //overite variabel global itemId
-        itemId = $$(this).parents('.item-content').find('.item-title').text();
+        itemId  = $$(this).parents('.item-content').find('.item-title').text();
         itemIni = $$(this).parents('.item-content');
         
         //console.log(itemId);
@@ -322,40 +369,3 @@ LDR.onPageInit('pgKeranjang', function (page) {
         
     });
 });
-
-
-//======================================
-
-function keBeranda() {
-    mainView.router.loadPage('index.html');
-}
-
-function keLayanan() {
-    mainView.router.loadPage('pg-layanan.html');
-}
-
-//function to remove a value from the json/array
-function hapusArray(obj, prop, val) {
-    var c, found=false;
-    for(c in obj) {
-        if(obj[c][prop] === val) {
-            found=true;
-            break;
-        }
-    }
-    if(found){
-        //delete obj[c]; malah undefined
-        obj.splice(c, 1);
-    }
-}
-
-function replaceBarang(Barang){
-    var idLay = Barang.idLayanan;
-    //hapus barang dari keranjang
-    hapusArray(Keranjang.barang,'idLayanan',idLay);
-    
-    //masukan barang ke keranjang lagi
-    if(Barang.subQty > 0){
-        Keranjang.barang.push(Barang);
-    }
-}
