@@ -17,10 +17,10 @@
             <a href="#tab_keranjang" class="tab-link active">
                 Keranjang
             </a>
-            <a href="#tab_ringkasan" class="tab-link disabled">
-                Ringkasan
+            <a href="#tab_alamat" class="tab-link">
+                Alamat
             </a>
-            <a href="#tab_konfirmasi" class="tab-link disabled">
+            <a href="#tab_konfirmasi" class="tab-link">
                 Konfirmasi
             </a>
         </div>
@@ -29,6 +29,53 @@
     <div class="page-content hide-navbar-on-scroll">
         <div class="tabs">
             <div class="tab active" id="tab_keranjang" >
+                <div class="content-block-title">Keranjang</div>
+                <div class="list-block media-list">
+                    <ul>
+
+                        <li class="item-content">
+                            <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">Laundry Kiloan 2</div>
+                                    <div class="item-after"><a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"></span></a></div>
+                                </div>
+                                <div class="item-subtitle"><span class="itemQty">3</span> Kg Rp <span class="itemSubTotal">30.000</span></div>
+                            </div>
+                        </li>
+
+                        <li class="item-content">
+                            <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">Laundry Kiloan 3</div>
+                                    <div class="item-after"><a href="#" class="popOpsi"> <span class="fa fa-ellipsis-v fa-2x"> </span></a></div>
+                                </div>
+                                <div class="item-subtitle"><span class="itemQty">3</span> Kg Rp <span class="itemSubTotal">30.000</span></div>
+                            </div>
+                        </li>
+
+                        <li class="item-content">
+
+                            <div class="item-media"><span class="fa fa-plus fa-2x"></span></div>
+                            <div class="item-inner">
+                                <a href="pg-layanan.html">Tambah Layanan</a>
+                            </div>
+                        </li>
+
+                        <li class="item-content">
+                            <div class="item-media"><span class="fa fa-money fa-lg"></span></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">Total</div>
+                                    <div class="item-after">Rp.12345</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="tab_alamat" class="tab">
                 <div class="list-block inputs-list">
                     <ul>
                         <li>
@@ -37,9 +84,10 @@
                                 <div class="item-inner"> 
                                     <div class="item-input">
                                         <select>
-                                            <option>Alamat Penjemputan</option>
+                                            <option>Pilih alamat Penjemputan</option>
                                             <option>Opsi satu</option>
                                             <option>Opsi dua</option>
+                                            <option>Tambahkan alamat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,28 +95,44 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="fa fa-calendar-check-o"></i></div>
+                                <div class="item-media"></div>
                                 <div class="item-inner"> 
-                                    <div class="item-input">
-                                        <input type="text" placeholder="Tanggal penjemputan" class="itemKalender"/>
-                                    </div>
+                                    <span id="txt_alamat">Jl. alamat ini itu no 1234 Rt 002 rw 003</span>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="fa fa-clock-o fa-lg"></i></div>
+                                <div class="item-media"><i class="fa fa-phone fa-lg"></i></div>
                                 <div class="item-inner"> 
-                                    <div class="item-input">
-                                        <select>
-                                            <option>Waktu penjemputan</option>
-                                            <option>09:00 - 10:00</option>
-                                            <option>13:00 - 14:00</option>
-                                        </select>
-                                    </div>
+                                    <span id="txt_tlp">085776914000</span>
                                 </div>
                             </div>
                         </li>
+                        <!--                        <li>
+                                                    <div class="item-content">
+                                                        <div class="item-media"><i class="fa fa-calendar-check-o"></i></div>
+                                                        <div class="item-inner"> 
+                                                            <div class="item-input">
+                                                                <input type="date" placeholder="Tanggal penjemputan" class="itemKalender"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="item-content">
+                                                        <div class="item-media"><i class="fa fa-clock-o fa-lg"></i></div>
+                                                        <div class="item-inner"> 
+                                                            <div class="item-input">
+                                                                <select>
+                                                                    <option>Waktu penjemputan</option>
+                                                                    <option>09:00 - 10:00</option>
+                                                                    <option>13:00 - 14:00</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>-->
                         <li class="item-divider"></li>
                         <li>
                             <div class="item-content">
@@ -106,55 +170,11 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title">Keranjang</div>
-                <div class="list-block media-list">
-                    <ul>
-
-                        <li class="item-content">
-                            <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">Laundry Kiloan 2</div>
-                                    <div class="item-after"><a href="#" class="popOpsi"> <span class="fa fa-ellipsis-v fa-2x"> </span></a></div>
-                                </div>
-                                <div class="item-subtitle"><span class="itemQty">3</span> Kg Rp <span class="itemSubTotal">30.000</span></div>
-                            </div>
-                        </li>
-
-                        <li class="item-content">
-                            <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">Laundry Kiloan 3</div>
-                                    <div class="item-after"><a href="#" class="popOpsi"> <span class="fa fa-ellipsis-v fa-2x"> </span></a></div>
-                                </div>
-                                <div class="item-subtitle"><span class="itemQty">3</span> Kg Rp <span class="itemSubTotal">30.000</span></div>
-                            </div>
-                        </li>
-
-                        <li class="item-content">
-
-                            <div class="item-media"><span class="fa fa-plus fa-2x"></span></div>
-                            <div class="item-inner">
-                                <a href="pg-layanan.html">Tambah Layanan</a>
-                            </div>
-                        </li>
-
-                        <li class="item-content">
-                            <div class="item-media"><span class="fa fa-money fa-lg"></span></div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">Total</div>
-                                    <div class="item-after">Rp.12345</div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <a href="#" class="button button-raised button-fill color-teal">Selanjutnya</a>
-
             </div>
         </div>
     </div>
+    <!-- Floating Action Button -->
+    <a href="#" id="btn_selanjutnya" class="floating-button">
+        <i class="fa fa-arrow-right"></i>
+    </a>
 </div>

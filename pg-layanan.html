@@ -14,22 +14,26 @@
     <div class="page-content">
         <div class="content-block-title">Pilih layanan Londria </div>
         <div class="content-block">
-             {{#each layanan}}
-                    
+            {{#each layanan}}
+
             <div class="card cardLayanan" data-idLayanan="{{idLayanan}}">
                 <a href ="pg-layanan-detail.html">
-                <div style="background-image:url(img/{{fotoLayanan}})" valign="bottom" class="card-header color-white no-border ldr-card-header-pic">Detail...</div>
+                    <div style="background-image:url(img/{{fotoLayanan}})" valign="bottom" class="card-header color-white no-border ldr-card-header-pic">Detail...</div>
                 </a>
                 <div class="card-content"> 
                     <div class="card-content-inner"> 
-                        <p class="color-gray">{{namaLayanan}} - Rp <span class="layananHarga">{{hargaLayanan}}</span>/pc</p>
+                        <p class="color-gray">{{namaLayanan}} - <span class="layananHarga toNumeral">{{hargaLayanan}}</span>/pc</p>
                         <p>{{detailLayanan}}</p>
                     </div>
                 </div>
-                <div class="card-footer"><span class="subTotal"></span><a href="#" class="link KRJkurang"><i class="fa fa-minus-circle fa-lg"></i></a><span class="subQty">0</span><a href="#" class="link KRJtambah"><i class="fa fa-plus-circle fa-lg"></i></a></div>
+                <div class="card-footer"><span class="subTotal sembunyi"></span><span class="subTotal2"></span><a href="#" class="link KRJkurang"><i class="fa fa-minus-circle fa-lg"></i></a><span class="subQty">0</span><a href="#" class="link KRJtambah"><i class="fa fa-plus-circle fa-lg"></i></a></div>
             </div>
-    
+
             {{/each}}
         </div>
     </div>
+    <!-- Floating Action Button -->
+    <a href="pg-keranjang.html" class="floating-button">
+        <i class="fa fa-arrow-right"></i>
+    </a>
 </div>
