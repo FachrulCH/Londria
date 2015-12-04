@@ -30,7 +30,10 @@ var $$ = Dom7;
 // default nilai variabel global jika belum di definisikan
 // setting di file js/config.js
 var CONFIG = {
-    url: 'http://localhost/londriaServer'
+//    url: 'http://fachrul.net/londriaServer/',
+//    imgProfil : 'http://fachrul.net/londriaServer/img/profile/'
+    url: 'http://localhost/londriaServer/',
+    imgProfil: 'http://localhost/londriaServer/img/profile/'
 };
 
 // Add view
@@ -58,6 +61,85 @@ if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.templ
     console.log("get data layanan json");
 }
 
+Pengguna = {
+    initialize: function ()
+    {
+        this.getFav();
+    },
+    getFav: function ()
+    {
+        // ambil data dari DB
+
+        Pengguna.data = {
+            favorit: [
+                {
+                    "id": 123,
+                    "nama": "Laundry Asoy",
+                    "posisi": {
+                        "latitude": -6.1753871,
+                        "longitude": 106.8249587
+                    },
+                    "alamat": "Rumahnya ini disini",
+                    "buka": "Setiap hari, 09:00-22:00",
+                    "foto": CONFIG.imgProfil + "avatar.png",
+                    "desc": "Ini adalah deskripsi",
+                    "layanan": [
+                        {"id": 1234,
+                            "nama": "cuci",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        },
+                        {"id": 2222,
+                            "nama": "gosok",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        }
+                    ]
+                },
+                {
+                    "id": 2222,
+                    "nama": "Laundry Geboy",
+                    "posisi": {
+                        "latitude": -6.1594736,
+                        "longitude": 106.7853433
+                    },
+                    "alamat": "Jl. alamat laundry geboy euy",
+                    "buka": "Setiap hari, 09:00-22:00",
+                    "foto": CONFIG.imgProfil + "avatar2.png",
+                    "desc": "Ini adalah deskripsi",
+                    "layanan": [
+                        {"id": 1234,
+                            "nama": "cuci",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        },
+                        {"id": 2222,
+                            "nama": "gosok",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        }
+                    ]
+                }
+            ],
+            lokasi: {
+                "latitude": -6.2036776,
+                "longitude": 106.8214523
+            }
+        };
+
+
+        // Hitung jarak laundry dengan posisi sekarang
+        $$.each(Pengguna.data.favorit, function (index, value)
+        {
+            Pengguna.data.favorit[index].jarak = Math.round(haversine(Pengguna.data.lokasi, Pengguna.data.favorit[index].posisi));
+        });
+
+
+        LDR.params.template7Data['page:pgLaundry'] = Pengguna.data;
+    }
+};
+
+Pengguna.initialize();
 
 //====================================== 
 //         Class Variabel
@@ -485,4 +567,48 @@ LDR.onPageInit('pgKeranjang', function (page)
 //        maxDate: sysdate.setDate(sysdate.getDate() + 30)
 //    });
 
+});
+
+
+//======================================
+//              pg-laundry-profil.html
+//======================================
+LDR.onPageBeforeInit('pgLaundryProfil', function (page)
+{
+
+    $$.ajax({
+        url: CONFIG.url + "api/profil/laundry/2/",
+        method: 'GET',
+        dataType: 'json',
+        data: {},
+        beforeSend: function (xhr)
+        {
+            LDR.showPreloader();
+        },
+        success: function (data, textStatus, jqXHR)
+        {
+            //LDR.alert("Berhasil");
+            data2view(data.profil);
+            //console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            LDR.alert("Terdapat error saat mengambil data dari server");
+            console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
+        },
+        complete: function (jqXHR, textStatus)
+        {
+            LDR.hidePreloader();
+        }
+    });
+    
+    function data2view(data){
+        //console.log("func data2view:"+JSON.stringify(data));
+        $$('.txt_namaLdr').text(data.nama);
+        $$('.txt_jamBuka').text(data.buka);
+        $$('.txt_desc').text(data.desc);
+        $$('.txt_alamat').text(data.alamat);
+        
+        $$('#img_profilLondri').css('background-image', 'url(' + data.foto + ')');
+    }
 });

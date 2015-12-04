@@ -1,4 +1,4 @@
-<div class="page" data-page="kerangka" >
+<div class="page" data-page="pgLaundry" >
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left">
@@ -10,57 +10,42 @@
                 <a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a>
             </div>
         </div>
-        
+
         <div class="toolbar tabbar">
             <div class="toolbar-inner">
                 <a href="#tab_fav" class="tab-link active">
-                    Favorit
+                    <span class="fa fa-star-o"> Favorit</span>
                 </a>
                 <a href="#tab_sekitar" class="tab-link">
-                    Sekitar
+                    <span class="fa fa-map-o"> Sekitar</span>
                 </a>
-           </div>
+            </div>
         </div>
     </div>
     <div class="page-content hide-bars-on-scroll">
-<!-- Jarak aja ini -->
+        <!-- Jarak aja ini -->
         <div class="content-block-title"></div> 
         <div class="list-block media-list">
             <ul>
+                {{#each favorit}}
                 <li>
-                    <a href="pg-laundry-profil.html" class="item-link item-content">
+                    <a href="pg-laundry-profil.html?id={{id}}" class="item-link item-content">
                         <div class="item-media">
-                            <img src="http://localhost/londriaServer/img/profile/logo-f7.png" alt="profil"/>
+                            <img src="{{foto}}" alt="foto {{nama}}"/>
                         </div>
                         <div class="item-inner">
                             <div class="item-title-row">
-                                <div class="item-title">Laundry Asoy</div>
-                                <div class="item-after">3 Km</div>
+                                <div class="item-title">{{nama}}</div>
+                                <div class="item-after">{{jarak}} Km</div>
                             </div>
-                            <div class="item-subtitle">Buka 08:00-22:00</div>
+                            <div class="item-subtitle">{{buka}}</div>
                             <div class="item-text">
-                                Jl. ALamatnya adalah disana sini no 120 jakarta selatan
+                                {{alamat}}
                             </div>
                         </div>
                     </a>
                 </li>
-                <li>
-                    <a href="pg-laundry-profil.html" class="item-link item-content">
-                        <div class="item-media">
-                            <img src="http://localhost/londriaServer/img/profile/logo-f7.png" alt="profil"/>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title-row">
-                                <div class="item-title">Laundry Asoy</div>
-                                <div class="item-after">4 Km</div>
-                            </div>
-                            <div class="item-subtitle">Buka 08:00-22:00</div>
-                            <div class="item-text">
-                                Jl. ALamatnya adalah disana sini no 120 jakarta selatan, deket masjid sana sebelah situnya
-                            </div>
-                        </div>
-                    </a>
-                </li>
+                {{/each}}
             </ul>
         </div>
     </div>
