@@ -346,6 +346,19 @@ function func_rpNum(rp)
     return numeral().unformat(rp);
 }
 
+function func_timeRel(time)
+{
+    return moment(time).fromNow();
+}
+
+var rating = new Array();
+rating[0] = '<span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
+rating[1] = '<span class="fa fa-star"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
+rating[2] = '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
+rating[3] = '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
+rating[4] = '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span>';
+rating[5] = '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
+
 //======================================
 // Meload JavaScript di page tertentu
 // LDR.onPageInit('namaDataPage', function (page) {})
@@ -575,6 +588,22 @@ LDR.onPageInit('pgKeranjang', function (page)
 //======================================
 LDR.onPageBeforeInit('pgLaundryProfil', function (page)
 {
+    // dibuat objek penampung nilai biar setelah ngambil ajax dari database, ga langsung di manipulasi DOM
+    // insert ke DOM di lakukan saat tab nya di klik ajah
+    // dibuat flaging 0 untuk belum di insert ke DOM, 1 = udah di insert ke DOM
+    window.pgLaundryProfil = {tab_profil: 0, tab_lokasi: 0, tab_layanan: 0, tab_komentar: 0};
+
+    function data2view(data)
+    {
+        //console.log("func data2view:"+JSON.stringify(data));
+        $$('.txt_namaLdr').text(data.nama);
+        $$('.txt_jamBuka').text(data.buka);
+        $$('.txt_desc').text(data.desc);
+        $$('.txt_alamat').text(data.alamat);
+        $$('#img_profilLondri').css('background-image', 'url(' + data.foto + ')');
+        window.pgLaundryProfil.tab_profil = 1; // uda insert ke DOM
+    }
+
 
     $$.ajax({
         url: CONFIG.url + "api/profil/laundry/2/",
@@ -588,6 +617,7 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
         success: function (data, textStatus, jqXHR)
         {
             //LDR.alert("Berhasil");
+            window.pgLaundryProfil.data = data.profil;
             data2view(data.profil);
             //console.log(data);
         },
@@ -601,14 +631,71 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
             LDR.hidePreloader();
         }
     });
-    
-    function data2view(data){
-        //console.log("func data2view:"+JSON.stringify(data));
-        $$('.txt_namaLdr').text(data.nama);
-        $$('.txt_jamBuka').text(data.buka);
-        $$('.txt_desc').text(data.desc);
-        $$('.txt_alamat').text(data.alamat);
-        
-        $$('#img_profilLondri').css('background-image', 'url(' + data.foto + ')');
-    }
+    $$('#tab_lokasi').on('show', function ()
+    {
+        console.log("tab_lokasi muncul");
+    });
+
+
+    $$('#tab_layanan').on('show', function ()
+    {
+        if (window.pgLaundryProfil.tab_layanan === 0) // jika tab layanan belum di insert DOM
+        {
+            //console.log("belom di insert layanan");
+            var listLayanan = "";
+            $$.each(window.pgLaundryProfil.data.layanan, function (index, value)
+            {
+                var row = window.pgLaundryProfil.data.layanan[index];
+                listLayanan += '<li class="item-content">'
+                        + '<div class="item-media"><img src="' + row.foto + '" width="44"/></div>'
+                        + '<div class="item-inner">'
+                        + '<div class="item-title-row">'
+                        + '<div class="item-title">' + row.nama + '</div>'
+                        + '</div>'
+                        + '<div class="item-subtitle">' + row.harga + '</div>'
+                        + '</div>'
+                        + '</li>';
+            });
+
+            $$('#txt_listLayanan').html(listLayanan);
+            window.pgLaundryProfil.tab_layanan = 1;
+        }
+    });
+
+    $$('#tab_komentar').on('show', function ()
+    {
+        if (window.pgLaundryProfil.tab_komentar === 0) // jika tab komentar belum di insert DOM
+        {
+            console.log("tab_komentar muncul");
+            var listKomen = "";
+            $$.each(window.pgLaundryProfil.data.komentar, function (index, value)
+            {
+                var row = window.pgLaundryProfil.data.komentar[index];
+                listKomen += '<div class="card facebook-card">'
+                        + '<div class="card-header">'
+                        + '<div class="facebook-avatar"><img src="'+ row.foto +'" class="avaBunder" width="34" height="34"></div>'
+                        + '<div class="facebook-name">'+ row.sender +'</div>'
+                        + '<div class="facebook-date">' + func_timeRel(row.time) + '</div>'
+                        + '</div>'
+                        + '<div class="card-content">'
+                        + '<div class="card-content-inner">'
+                        + '<p>'
+                        + rating[row.rating]
+                        + '</p>'
+                        + '<p class="color-gray">'+ row.message +'</p>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>';
+            });
+            $$('#txt_listKomen').html(listKomen);
+            window.pgLaundryProfil.tab_komentar = 1;
+        }
+    });
+});
+
+
+LDR.onPageBeforeRemove('pgLaundryProfil', function (page)
+{
+    window.pgLaundryProfil = undefined;
+    console.log("Menghapus window.pgLaundryProfil");
 });
