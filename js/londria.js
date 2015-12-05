@@ -131,7 +131,7 @@ Pengguna = {
         // Hitung jarak laundry dengan posisi sekarang
         $$.each(Pengguna.data.favorit, function (index, value)
         {
-            Pengguna.data.favorit[index].jarak = Math.round(haversine(Pengguna.data.lokasi, Pengguna.data.favorit[index].posisi));
+            Pengguna.data.favorit[index].jarak = func_jarak(Pengguna.data.favorit[index].posisi);
         });
 
 
@@ -349,6 +349,11 @@ function func_rpNum(rp)
 function func_timeRel(time)
 {
     return moment(time).fromNow();
+}
+
+function func_jarak(lokasiLaundry)
+{
+    return Math.round(haversine(Pengguna.data.lokasi, lokasiLaundry));
 }
 
 var rating = new Array();
@@ -584,6 +589,88 @@ LDR.onPageInit('pgKeranjang', function (page)
 
 
 //======================================
+//              pg-laundry.html
+//======================================
+LDR.onPageInit('pgLaundry', function (page)
+{
+    window.pgLaundry = 0;
+    function data2sekitar(data)
+    {
+        //console.log(JSON.stringify(data));
+        var listSekitar = "";
+        $$.each(data, function (index, value)
+        {
+            var row = data[index];
+            var jarak = func_jarak(row.posisi);
+            //console.log(row.id);
+            listSekitar += '<li>'
+                    + '<a href="pg-laundry-profil.html?id=' + row.id + '" class="item-link item-content">'
+                    + '<div class="item-media">'
+                    + '<img src="' + row.foto + '" alt="foto ' + row.nama + '"/>'
+                    + '</div>'
+                    + '<div class="item-inner">'
+                    + '<div class="item-title-row">'
+                    + '<div class="item-title">' + row.nama + '</div>'
+                    + '<div class="item-after">' + jarak + ' Km</div>'
+                    + '</div>'
+                    + '<div class="item-subtitle">' + row.buka + '</div>'
+                    + '<div class="item-text">'
+                    + row.alamat
+                    + '</div>'
+                    + '</div>'
+                    + '</a>'
+                    + '</li>';
+        });
+        $$('#txt_listSekitar').html(listSekitar);
+        window.pgLaundry = 1;
+    }
+
+    $$('#tab_sekitar').on('show', function ()
+    {
+        if (window.pgLaundry === 0)
+        {
+            $$.ajax({
+                url: CONFIG.url + "api/laundry/sekitar/",
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    userId: "developer",
+                    lokasi: Pengguna.data.lokasi
+                },
+                beforeSend: function (xhr)
+                {
+                    LDR.showPreloader("Mohon Tunggu");
+                },
+                success: function (data, textStatus, jqXHR)
+                {
+                    data2sekitar(data.laundry);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    LDR.alert("Terdapat error saat mengambil data dari server");
+                    console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
+                },
+                complete: function (jqXHR, textStatus)
+                {
+                    setTimeout(function ()
+                    {
+                        LDR.hidePreloader();
+                    }, 500);
+                }
+            });
+        }
+    });
+
+});
+
+LDR.onPageBeforeRemove('pgLaundry', function (page)
+{
+    window.pgLaundry = undefined;
+    console.log("Menghapus window.pgLaundry");
+});
+
+
+//======================================
 //              pg-laundry-profil.html
 //======================================
 LDR.onPageBeforeInit('pgLaundryProfil', function (page)
@@ -592,6 +679,9 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
     // insert ke DOM di lakukan saat tab nya di klik ajah
     // dibuat flaging 0 untuk belum di insert ke DOM, 1 = udah di insert ke DOM
     window.pgLaundryProfil = {tab_profil: 0, tab_lokasi: 0, tab_layanan: 0, tab_komentar: 0};
+
+    var halaman = $$.parseUrlQuery(LDR.views[0].url);
+    console.log("ambil data halaman:" + halaman.id);
 
     function data2view(data)
     {
@@ -612,7 +702,7 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
         data: {},
         beforeSend: function (xhr)
         {
-            LDR.showPreloader();
+            LDR.showPreloader("Mohon Tunggu");
         },
         success: function (data, textStatus, jqXHR)
         {
@@ -628,7 +718,10 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
         },
         complete: function (jqXHR, textStatus)
         {
-            LDR.hidePreloader();
+            setTimeout(function ()
+            {
+                LDR.hidePreloader();
+            }, 500);
         }
     });
     $$('#tab_lokasi').on('show', function ()
@@ -673,8 +766,8 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
                 var row = window.pgLaundryProfil.data.komentar[index];
                 listKomen += '<div class="card facebook-card">'
                         + '<div class="card-header">'
-                        + '<div class="facebook-avatar"><img src="'+ row.foto +'" class="avaBunder" width="34" height="34"></div>'
-                        + '<div class="facebook-name">'+ row.sender +'</div>'
+                        + '<div class="facebook-avatar"><img src="' + row.foto + '" class="avaBunder" width="34" height="34"></div>'
+                        + '<div class="facebook-name">' + row.sender + '</div>'
                         + '<div class="facebook-date">' + func_timeRel(row.time) + '</div>'
                         + '</div>'
                         + '<div class="card-content">'
@@ -682,7 +775,7 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
                         + '<p>'
                         + rating[row.rating]
                         + '</p>'
-                        + '<p class="color-gray">'+ row.message +'</p>'
+                        + '<p class="color-gray">' + row.message + '</p>'
                         + '</div>'
                         + '</div>'
                         + '</div>';

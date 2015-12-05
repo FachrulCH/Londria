@@ -22,31 +22,43 @@
             </div>
         </div>
     </div>
-    <div class="page-content hide-bars-on-scroll">
+    <div class="page-content hide-navbar-on-scroll">
         <!-- Jarak aja ini -->
-        <div class="content-block-title"></div> 
-        <div class="list-block media-list">
-            <ul>
-                {{#each favorit}}
-                <li>
-                    <a href="pg-laundry-profil.html?id={{id}}" class="item-link item-content">
-                        <div class="item-media">
-                            <img src="{{foto}}" alt="foto {{nama}}"/>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title-row">
-                                <div class="item-title">{{nama}}</div>
-                                <div class="item-after">{{jarak}} Km</div>
-                            </div>
-                            <div class="item-subtitle">{{buka}}</div>
-                            <div class="item-text">
-                                {{alamat}}
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                {{/each}}
-            </ul>
+        <div class="tabs">
+            <div id="tab_fav" class="tab active">
+                <div class="content-block-title"></div> 
+                <div class="list-block media-list">
+                    <ul>
+                        {{#each favorit}}
+                        <li>
+                            <a href="pg-laundry-profil.html?id={{id}}" class="item-link item-content">
+                                <div class="item-media">
+                                    <img src="{{foto}}" alt="foto {{nama}}"/>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">{{nama}}</div>
+                                        <div class="item-after">{{jarak}} Km</div>
+                                    </div>
+                                    <div class="item-subtitle">{{buka}}</div>
+                                    <div class="item-text">
+                                        {{alamat}}
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div id="tab_sekitar" class="tab">
+                <div class="content-block-title"></div> 
+                <div class="list-block media-list">
+                    <ul id="txt_listSekitar">
+
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
