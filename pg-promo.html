@@ -1,4 +1,4 @@
-<div class="page" data-page="promo" >
+<div class="page" data-page="pgPromo" >
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left">
@@ -13,7 +13,7 @@
     </div>
     <div class="page-content hide-bars-on-scroll">
         <div class="content-block">
-            <div class="card">
+<!--            <div class="card">
                 <div class="card-header"><b>Nama Toko Laundry nya</b></div>
                 <div class="card-content"> 
                     <div class="ldr-card-header-pic" style="background-image:url(http://localhost/londriaServer/img/promo/londria.png)" valign="bottom"></div>
@@ -27,7 +27,18 @@
                     <a href="#">Selengkapnya</a>
                     <a href="#" onclick="pop_OpsiPromo(this)">&nbsp; &nbsp; &nbsp; &nbsp;<span class="fa fa-ellipsis-v fa-2x"></span></a>
                 </div>
+            </div>-->
+            {{#each promo}}
+            <div class="card">
+                <div class="card-header"><b>{{title}}</b> <a href="#" onclick="pop_OpsiPromo(this)">&nbsp; &nbsp; &nbsp; &nbsp;<span class="fa fa-ellipsis-v fa-2x"></span></a></div>
+                <div class="card-content"> 
+                    <div class="ldr-card-header-pic" style="background-image:url({{foto}})" valign="bottom"></div>
+                    <div class="card-content-inner">
+                        <p>{{desc}}</p>
+                    </div>
+                </div>
             </div>
+            {{/each}}
         </div>
     </div>
 </div>

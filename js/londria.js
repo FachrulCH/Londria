@@ -1,141 +1,300 @@
-// Initialize app
 //======================================
-//         variabel awal
+//         Deklarasi Objek
 //======================================
-var LDR = new Framework7({
-    modalTitle: "Londria",
-    material: true,
-    materialPageLoadDelay: 200,
-    sortable: false,
-    pushState: true,
-    pushStateSeparator: '#fch/',
-    //precompileTemplates: true
-    template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
-});
 
-var LDRswiper = LDR.swiper('.swiper-container', {
-    pagination: '.swiper-pagination',
-    paginationClickable: true,
-    autoplay: 3000,
-    speed: 1500,
-    effect: "coverflow",
-    spaceBetween: 10,
-    preloadImages: false,
-    lazyLoading: true
-});
-
-// If we need to use custom DOM library, let's save it to $$ variable:
-var $$ = Dom7;
-
-// default nilai variabel global jika belum di definisikan
-// setting di file js/config.js
-var CONFIG = {
-//    url: 'http://fachrul.net/londriaServer/',
-//    imgProfil : 'http://fachrul.net/londriaServer/img/profile/'
-    url: 'http://localhost/londriaServer/',
-    imgProfil: 'http://localhost/londriaServer/img/profile/'
+window.$user = {
+    "id": '',
+    "name": '',
+    "location": {"lat": '-6.1753871', "lng": '106.8249587'},
+    "token": '12345678'
 };
 
-// Add view
-var mainView = LDR.addView('.view-main', {});
+var URL = {
+    api: "http://localhost/londriaServer/api/",
+    imgProfil: 'http://localhost/londriaServer/img/profile/'
+//    url: 'http://fachrul.net/londriaServer/',
+//    imgProfil: 'http://fachrul.net/londriaServer/img/profile/'
+};
 
-// alias buat localforage
-//http://mozilla.github.io/localForage/
-var db = localforage || {};
-db.config({
-    name: 'dbLondria'
-});
-
-
-//====================================== 
-// setelah aplikasi di inisialisasi, ambil data layanan dari server
-//======================================
-
-// cek dlu klo belum ada ambil dari server
-if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null)
-{
-    $$.post(CONFIG.url + '/layanan.json', {}, function (data)
+var WS = {
+    "result": {},
+    "log": {},
+    "post": function ($api, callback)
     {
-        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data);
-    });
-    console.log("get data layanan json");
-}
+        $$.ajax({
+            url: URL.api + $api,
+            method: 'POST',
+            dataType: 'json',
+            data: $user,
+            beforeSend: function (xhr)
+            {
+                WS.result = null;
+                LDR.showPreloader("Mohon Tunggu");
+            },
+            success: function (data, textStatus, jqXHR)
+            {
+                //console.log("datanyaaa WS"+ JSON.stringify(data));
+                WS.result = data;
+                WS.log = {"textStatus": textStatus, "jqXHR": jqXHR};
+                //console.log("datanya ws: "+ JSON.stringify(data));
+
+                if (callback && typeof (callback) === "function")
+                {
+                    callback();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                LDR.alert("Terdapat error saat mengambil data dari server");
+                console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
+                setTimeout(function ()
+                {
+                    LDR.hidePreloader();
+                }, 300);
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                setTimeout(function ()
+                {
+                    LDR.hidePreloader();
+                }, 300);
+            }
+        });
+    },
+    "get": function ($api, $data, callback)
+    {
+
+        $$.ajax({
+            url: URL.api + $api,
+            method: 'GET',
+            dataType: 'json',
+            data: $data,
+            beforeSend: function (xhr)
+            {
+                WS.result = null;
+                LDR.showPreloader("Mohon Tunggu");
+            },
+            success: function (data, textStatus, jqXHR)
+            {
+                WS.result = data;
+                WS.log = {"textStatus": textStatus, "jqXHR": jqXHR};
+                //console.log("datanya ws: "+ JSON.stringify(data));
+                if (callback && typeof (callback) === "function")
+                {
+                    callback();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                LDR.alert("Terdapat error saat mengambil data dari server");
+                console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
+                setTimeout(function ()
+                {
+                    LDR.hidePreloader();
+                }, 300);
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                setTimeout(function ()
+                {
+                    LDR.hidePreloader();
+                }, 300);
+            }
+        });
+    }
+};
+
+var app = {
+    isPhonegap: function ()
+    {
+        return (typeof (cordova) !== 'undefined' || typeof (phonegap) !== 'undefined');
+    },
+    initialize: function ()
+    {
+        this.bindEvents();
+    },
+    bindEvents: function ()
+    {
+        if (app.isPhonegap())
+        {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        } else
+        {
+            window.onload = this.onDeviceReady();
+        }
+    },
+    onDeviceReady: function ()
+    {
+        console.log("ready gan");
+        app.receivedEvent('deviceready');
+    },
+    receivedEvent: function (event)
+    {
+        switch (event)
+        {
+            case 'deviceready':
+                app.inisiasi();
+                break;
+        }
+    },
+    inisiasi: function ()
+    {
+        // Initialize app
+        //======================================
+        //         variabel awal
+        //======================================
+        window.LDR = new Framework7({
+            modalTitle: "Londria",
+            material: true,
+            materialPageLoadDelay: 200,
+            sortable: false,
+            pushState: true,
+            pushStateSeparator: '#fch/',
+            //precompileTemplates: true
+            template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
+        });
+
+        window.LDRswiper = LDR.swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            autoplay: 3000,
+            speed: 1500,
+            effect: "coverflow",
+            spaceBetween: 10,
+            preloadImages: false,
+            lazyLoading: true
+        });
+
+        // If we need to use custom DOM library, let's save it to $$ variable:
+        window.$$ = Dom7;
+
+        // Add view
+        window.mainView = LDR.addView('.view-main', {});
+
+        // alias buat localforage
+        //http://mozilla.github.io/localForage/
+        window.db = localforage || {};
+        db.config({
+            name: 'dbLondria'
+        });
+
+        // cek dlu klo belum ada ambil dari server
+        if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null)
+        {
+        //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
+        //    {
+        //        console.log(data);
+        //        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data.result_data);
+        //    });
+
+            $$.getJSON(URL.api + 'layanan/', {}, function (data)
+            {
+                LDR.params.template7Data['page:pgLayanan'] = data.result_data;
+            });
+            console.log("get data layanan json");
+        }
+
+    }
+};
+
+app.initialize();
 
 Pengguna = {
     initialize: function ()
     {
-        this.getFav();
+        this.get_fav();
+        this.get_promo();
     },
-    getFav: function ()
+    get_fav: function ()
     {
         // ambil data dari DB
-
-        Pengguna.data = {
-            favorit: [
-                {
-                    "id": 123,
-                    "nama": "Laundry Asoy",
-                    "posisi": {
-                        "latitude": -6.1753871,
-                        "longitude": 106.8249587
-                    },
-                    "alamat": "Rumahnya ini disini",
-                    "buka": "Setiap hari, 09:00-22:00",
-                    "foto": CONFIG.imgProfil + "avatar.png",
-                    "desc": "Ini adalah deskripsi",
-                    "layanan": [
-                        {"id": 1234,
-                            "nama": "cuci",
-                            "foto": ".jpg",
-                            "harga": 10000
-                        },
-                        {"id": 2222,
-                            "nama": "gosok",
-                            "foto": ".jpg",
-                            "harga": 10000
-                        }
-                    ]
-                },
-                {
-                    "id": 2222,
-                    "nama": "Laundry Geboy",
-                    "posisi": {
-                        "latitude": -6.1594736,
-                        "longitude": 106.7853433
-                    },
-                    "alamat": "Jl. alamat laundry geboy euy",
-                    "buka": "Setiap hari, 09:00-22:00",
-                    "foto": CONFIG.imgProfil + "avatar2.png",
-                    "desc": "Ini adalah deskripsi",
-                    "layanan": [
-                        {"id": 1234,
-                            "nama": "cuci",
-                            "foto": ".jpg",
-                            "harga": 10000
-                        },
-                        {"id": 2222,
-                            "nama": "gosok",
-                            "foto": ".jpg",
-                            "harga": 10000
-                        }
-                    ]
-                }
-            ],
-            lokasi: {
-                "latitude": -6.2036776,
-                "longitude": 106.8214523
-            }
-        };
-
-
-        // Hitung jarak laundry dengan posisi sekarang
-        $$.each(Pengguna.data.favorit, function (index, value)
+        if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null)
         {
-            Pengguna.data.favorit[index].jarak = func_jarak(Pengguna.data.favorit[index].posisi);
-        });
+            Pengguna.data = {
+                favorit: [
+                    {
+                        "id": 123,
+                        "nama": "Laundry Asoy",
+                        "posisi": {
+                            "latitude": -6.1753871,
+                            "longitude": 106.8249587
+                        },
+                        "alamat": "Rumahnya ini disini",
+                        "buka": "Setiap hari, 09:00-22:00",
+                        "foto": URL.imgProfil + "avatar.png",
+                        "desc": "Ini adalah deskripsi",
+                        "layanan": [
+                            {"id": 1234,
+                                "nama": "cuci",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            },
+                            {"id": 2222,
+                                "nama": "gosok",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2222,
+                        "nama": "Laundry Geboy",
+                        "posisi": {
+                            "latitude": -6.1594736,
+                            "longitude": 106.7853433
+                        },
+                        "alamat": "Jl. alamat laundry geboy euy",
+                        "buka": "Setiap hari, 09:00-22:00",
+                        "foto": URL.imgProfil + "avatar2.png",
+                        "desc": "Ini adalah deskripsi",
+                        "layanan": [
+                            {"id": 1234,
+                                "nama": "cuci",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            },
+                            {"id": 2222,
+                                "nama": "gosok",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            }
+                        ]
+                    }
+                ],
+                lokasi: {
+                    "latitude": -6.2036776,
+                    "longitude": 106.8214523
+                }
+            };
 
 
-        LDR.params.template7Data['page:pgLaundry'] = Pengguna.data;
+            // Hitung jarak laundry dengan posisi sekarang
+            $$.each(Pengguna.data.favorit, function (index, value)
+            {
+                Pengguna.data.favorit[index].jarak = func_jarak(Pengguna.data.favorit[index].posisi);
+            });
+
+
+            LDR.params.template7Data['page:pgLaundry'] = Pengguna.data;
+            console.log("getFav");
+        }
+    },
+    get_promo: function ()
+    {
+        if (LDR.params.template7Data['page:pgPromo'] === undefined || LDR.params.template7Data['page:pgPromo'] === null)
+        {
+            $$.getJSON(URL.api + 'promo/', {"token": $user.token}, function (data)
+            {
+                LDR.params.template7Data['page:pgPromo'] = data.result_data;
+            });
+
+//            WS.get('promo/', $user.token, function ()
+//            {
+//                LDR.params.template7Data['page:pgPromo'] = WS.result.result_data;
+//            });
+
+            console.log("get data promo");
+        }
     }
 };
 
@@ -355,7 +514,6 @@ function func_jarak(lokasiLaundry)
 {
     return Math.round(haversine(Pengguna.data.lokasi, lokasiLaundry));
 }
-
 var rating = new Array();
 rating[0] = '<span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
 rating[1] = '<span class="fa fa-star"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
@@ -606,7 +764,7 @@ LDR.onPageInit('pgLaundry', function (page)
             listSekitar += '<li>'
                     + '<a href="pg-laundry-profil.html?id=' + row.id + '" class="item-link item-content">'
                     + '<div class="item-media">'
-                    + '<img src="' + row.foto + '" alt="foto ' + row.nama + '"/>'
+                    + '<img src="' + URL.imgProfil + row.foto + '" alt="foto ' + row.nama + '"/>'
                     + '</div>'
                     + '<div class="item-inner">'
                     + '<div class="item-title-row">'
@@ -629,34 +787,12 @@ LDR.onPageInit('pgLaundry', function (page)
     {
         if (window.pgLaundry === 0)
         {
-            $$.ajax({
-                url: CONFIG.url + "api/laundry/sekitar/",
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                    userId: "developer",
-                    lokasi: Pengguna.data.lokasi
-                },
-                beforeSend: function (xhr)
-                {
-                    LDR.showPreloader("Mohon Tunggu");
-                },
-                success: function (data, textStatus, jqXHR)
-                {
-                    data2sekitar(data.laundry);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    LDR.alert("Terdapat error saat mengambil data dari server");
-                    console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
-                },
-                complete: function (jqXHR, textStatus)
-                {
-                    setTimeout(function ()
-                    {
-                        LDR.hidePreloader();
-                    }, 500);
-                }
+            var param = $user.location;
+            param.token = $user.token;
+
+            WS.get("laundry/sekitar/", param, function ()
+            {
+                data2sekitar(WS.result.result_data.laundry);
             });
         }
     });
@@ -696,7 +832,7 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
 
 
     $$.ajax({
-        url: CONFIG.url + "api/profil/laundry/2/",
+        url: URL.api + "profil/laundry/2/",
         method: 'GET',
         dataType: 'json',
         data: {},
@@ -715,13 +851,17 @@ LDR.onPageBeforeInit('pgLaundryProfil', function (page)
         {
             LDR.alert("Terdapat error saat mengambil data dari server");
             console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
+            setTimeout(function ()
+            {
+                LDR.hidePreloader();
+            }, 300);
         },
         complete: function (jqXHR, textStatus)
         {
             setTimeout(function ()
             {
                 LDR.hidePreloader();
-            }, 500);
+            }, 300);
         }
     });
     $$('#tab_lokasi').on('show', function ()
@@ -791,4 +931,30 @@ LDR.onPageBeforeRemove('pgLaundryProfil', function (page)
 {
     window.pgLaundryProfil = undefined;
     console.log("Menghapus window.pgLaundryProfil");
+});
+
+
+//======================================
+//              pg-promo.html
+//======================================
+LDR.onPageBeforeInit('pgPromo', function (page)
+{
+    //LDR.router.load({context: window.ws_result.result_data.promo});
+});
+//
+//======================================
+//              pg-tracking.html
+//======================================
+LDR.onPageInit('pgTracking', function (page)
+{
+    $$('#btn_track').on('click', function(){
+        var kode = $$('#f_KodeOrder').val().trim();
+        
+        if (kode ===''){
+            LDR.alert("Isikan kode order kamu");
+        }else{
+            $$('#div_track').show();
+        }
+
+    });
 });
