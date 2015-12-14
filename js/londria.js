@@ -181,11 +181,11 @@ var app = {
         // cek dlu klo belum ada ambil dari server
         if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null)
         {
-        //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
-        //    {
-        //        console.log(data);
-        //        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data.result_data);
-        //    });
+            //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
+            //    {
+            //        console.log(data);
+            //        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data.result_data);
+            //    });
 
             $$.getJSON(URL.api + 'layanan/', {}, function (data)
             {
@@ -947,13 +947,49 @@ LDR.onPageBeforeInit('pgPromo', function (page)
 //======================================
 LDR.onPageInit('pgTracking', function (page)
 {
-    $$('#btn_track').on('click', function(){
+    $$('#form_track').on('submit', function (e)
+    {
+        e.preventDefault();
+
         var kode = $$('#f_KodeOrder').val().trim();
-        
-        if (kode ===''){
+
+        if (kode === '')
+        {
             LDR.alert("Isikan kode order kamu");
-        }else{
-            $$('#div_track').show();
+        } else
+        {
+            WS.get('tracking/', {"token": $user.token, "id": kode}, function ()
+            {
+                if (WS.result.result_code !== '00')
+                {
+                    LDR.alert(WS.result.result_msg);
+                } else
+                {
+                    var listTracking = "";
+                    var foto    = ['tumpukan-pakaian.png', 'jepitan.png', 'mesin-cuci.png','mesin-cuci.png', 'setrika.png', 'pakaian-rapih.png'];
+                    var status  = ["Submit Order", "Pickup", "Menunggu antrian cuci", "Dicuci", "Disetrika", "Selesai diproses"];
+                    
+                    $$.each(WS.result.result_data.tracking, function (index, value)
+                    {
+                        var row = WS.result.result_data.tracking[index];
+                        listTracking += '<li>' +
+                                '<a href="#" class="item-link item-content">' +
+                                '<div class="item-media"><img src="img/'+ foto[row.posisi] +'" width="80"></div>' +
+                                '<div class="item-inner">' +
+                                '<div class="item-title-row">' +
+                                '<div class="item-title">'+ status[row.posisi] +'</div>' +
+                                '<div class="item-after">'+row.id+'</div>' +
+                                '</div>' +
+                                '<div class="item-subtitle">'+ row.nama_laundry +'</div>' +
+                                '<div class="item-text">'+ row.waktu +'</div>' +
+                                '</div>' +
+                                '</a>' +
+                                '</li>';
+                    });
+                    $$('#div_track').html(listTracking);
+                    $$('#div_track').show();
+                }
+            });
         }
 
     });

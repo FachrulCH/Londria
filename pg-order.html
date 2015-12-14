@@ -1,0 +1,195 @@
+<div class="page theme-teal" data-page="pgOrder" >
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="index.html" class="back link icon-only"><i class="icon icon-back"></i></a>
+            </div>
+            <div class="center">New Order</div>
+            <div class="right"> 
+                <a href="#" class="link icon-only"><i class="fa fa-shopping-cart fa-lg"><span class="badge bg-red">5</span></i></a>
+                <a href="index.html" class="external link icon-only"><i class="fa fa-home fa-lg"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar tabbar">
+        <div class="toolbar-inner">
+            <a href="#tab_info" class="tab-link active">
+                Informasi
+            </a>
+            <a href="#tab_laundry" class="tab-link">
+                Laundry
+            </a>
+            <a href="#tab_konfirmasi" class="tab-link">
+                Konfirmasi
+            </a>
+        </div>
+    </div>
+
+    <div class="page-content hide-navbar-on-scroll">
+        <div class="tabs">
+            <div id="tab_info" class="tab active">
+                <div class="list-block inputs-list">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="fa fa-home"></i></div>
+                                <div class="item-inner"> 
+                                    <div class="item-title label">Alamat penjemputan</div>
+                                    <div class="item-input">
+                                        <select>
+                                            <option>Opsi satu</option>
+                                            <option>Opsi dua</option>
+                                            <option>Tambahkan alamat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"></div>
+                                <div class="item-inner"> 
+                                    <span id="txt_alamat">Jl. alamat ini itu no 1234 Rt 002 rw 003</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="fa fa-phone"></i></div>
+                                <div class="item-inner"> 
+                                    <span id="txt_tlp">085776914000</span>
+                                </div>
+                            </div>
+                        </li>
+                        <!--                        <li>
+                                                    <div class="item-content">
+                                                        <div class="item-media"><i class="fa fa-street-view"></i></div>
+                                                        <div class="item-inner">
+                                                            <div class="item-title label">Alamat pengantaran</div>
+                                                            <div class="item-input">
+                                                                <select>
+                                                                    <option>Opsi satu</option>
+                                                                    <option>Opsi dua</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="item-content">
+                                                        <div class="item-media"></div>
+                                                        <div class="item-inner"> 
+                                                            <span id="txt_alamat">Jl. alamat ini itu no 1234 Rt 002 rw 003</span>
+                                                        </div>
+                                                    </div>
+                                                </li>-->
+                        <li class="item-divider"></li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="fa fa-tags"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Pilih jenis layanan</div>
+                                    <div class="item-input">
+                                        <select>
+                                            <option>Laundry kiloan</option>
+                                            <option>Laundry satuan</option>
+                                            <option>Dry Cleaning</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="fa fa-cart-plus"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Jumlah</div>
+                                    <div class="item-input">
+                                        <input type="number" placeholder="Kg" name="f_kg"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="align-top">
+                            <div class="item-content">
+                                <div class="item-media"><i class="fa fa-commenting-o"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Catatan khusus</div>
+                                    <div class="item-input">
+                                        <textarea class="resizable"></textarea>
+                                    </div>   
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab" id="tab_laundry" >
+                <div class="content-block-title">Agen Laundry</div>
+                <div class="list-block media-list">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-link item-content">
+                                <div class="item-media avaBunder">
+                                    <img src="img/Laundry_Valet_Service.jpg" alt="foto"/>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">Laundry Asoy</div>
+                                        <div class="item-after">3 Km</div>
+                                    </div>
+                                    <div class="item-subtitle"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></div>
+                                    <div class="item-text">
+                                        Harga Rp 8.000/Kg
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-link item-content open-popup" data-popup=".popup_tarif">
+                                <div class="item-media avaBunder">
+                                    <img src="img/Laundry_Valet_Service.jpg" alt="foto"/>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">Laundry Popup</div>
+                                        <div class="item-after">3 Km</div>
+                                    </div>
+                                    <div class="item-subtitle"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></div>
+                                    <div class="item-text">
+                                        Ada 11 layanan dry clean
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="tab" id="tab_konfirmasi" >
+                <div class="content-block-title">Konfirmasi Order</div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-content-inner">
+                            <p>Alamat penjemputan: Jl asoy geboy</p>
+                            <p>Jenis layanan: Dry Cleaning</p>
+                            <p>Layanan: safari 2 pc, kemeja 1 pc</p>
+                            <p>Catatan khusus: jangan pakai molto</p>
+                            <p>Total harga: Rp25.000</p>
+                            <p>Jarak 3 Km</p>
+                            <p>Ongkos kirim: Rp 3.000</p>
+                            <p>Total Rp28.000</p>
+                            <p><a href="#" class="button button-raised button-fill color-blue close-popup">Konfirmasi</a></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Floating Action Button -->
+    <a href="#" id="btn_selanjutnya" class="floating-button">
+        <i class="fa fa-arrow-right"></i>
+    </a>
+</div>
