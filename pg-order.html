@@ -156,41 +156,24 @@
                     <div class="card-content">
                         <div class="card-content-inner">
                             <div class="row">
-                                <div class="col-25 kekiri">Alamat penjemputan</div>
-                                <div class="col-75 kekiri" id="txt_alamat">Jl asoy geboy 232423429 kafljflkasjfl 9284028 aksldjflka</div>
-                            </div>
-                            <div class="row">
                                 <div class="col-25 kekiri">Jenis layanan</div>
                                 <div class="col-75 kekiri" id="txt_jenisLayanan">Dry cleaning</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Agen Laundry</div>
+                                <div class="col-75 kekiri" id="txt_agen">Laundry Asoy</div>
                             </div>
                             <div class="row">
                                 <div class="col-25 kekiri">Catatan khusus</div>
                                 <div class="col-75 kekiri" id="txt_catatan">jangan pakai molto</div>
                             </div>
                             <div class="row">
-                                <div class="col-25 kekiri">Layanan</div>
-                                <div class="col-75 kekiri" id="txt_layanan">
-                                    <div class="row no-gutter">
-                                        <div class="col-75 kekiri">Safari</div>
-                                        <div class="col-25 kekanan">Rp30.000</div>
-                                    </div>
-                                </div>
+                                <div class="col-25 kekiri">Alamat penjemputan</div>
+                                <div class="col-75 kekiri" id="txt_alamatJemput">Jl asoy geboy 232423429 kafljflkasjfl 9284028 aksldjflka</div>
                             </div>
                             <div class="row">
-                                <div class="col-25 kekiri">Total harga</div>
-                                <div class="col-75 kekiri" id="txt_harga">Rp25.000</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-25 kekiri">Jarak</div>
-                                <div class="col-75 kekiri" id="txt_jarak">3 Km</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-25 kekiri">Ongkos</div>
-                                <div class="col-75 kekiri" id="txt_ongkos">Rp30.000</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-25 kekiri">Total</div>
-                                <div class="col-75 kekiri" id="txt_total">Rp300.000</div>
+                                <div class="col-25 kekiri">Jarak laundry</div>
+                                <div class="col-75 kekiri" id="txt_jarakLaundry">3 km</div>
                             </div>
                         </div>
                     </div>
@@ -198,9 +181,8 @@
                 <br/>
                 <div class="card">
                     <div class="list-block media-list">
-                        <ul>
-
-                            <li class="item-content">
+                        <ul id="ul_layanan">
+<!--                            <li class="item-content">
                                 <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
                                 <div class="item-inner">
                                     <div class="item-title-row">
@@ -212,37 +194,37 @@
                             </li>
 
                             <li class="item-content">
-                                <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">Safari stelan</div>
-                                        <div class="item-after"><span class="itemQty">3</span> Kg, Rp <span class="itemSubTotal">30.000</span><a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"> </span></a></div>
-                                    </div>
-                                    <div class="item-subtitle"><i class="color-bluegray">Rp 11.000</i></div>
-                                </div>
-                            </li>
-
-                            <li class="item-content">
 
                                 <div class="item-media"><span class="fa fa-plus fa-2x"></span></div>
                                 <div class="item-inner">
                                     <a href="pg-layanan.html">Tambah Layanan</a>
                                 </div>
-                            </li>
-
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="list-block media-list">
+                        <ul>
                             <li class="item-content">
                                 <div class="item-media"><span class="fa fa-money fa-lg"></span></div>
                                 <div class="item-inner">
                                     <div class="item-title-row">
                                         <div class="item-title">Total</div>
-                                        <div class="item-after">Rp.12345</div>
+                                        <div class="item-after" id="txt_grandTotal">Rp.12345</div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <p><a href="#" class="button button-raised button-fill color-blue close-popup">Konfirmasi</a></p>
+
+                <div class="content-block inset">
+                    <p class="buttons-row">
+                        <a href="#" id="btn_hapusOrder" class="button button-big button-fill button-raised color-pink">Hapus Order</a>
+                        <a href="#" id="btn_submitOrder" class="button button-big button-fill button-raised color-teal">Submit Order</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
