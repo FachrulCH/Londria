@@ -70,7 +70,13 @@
     padding: 15px 10px;
 }  
 
-
 .sembunyi{
     display: none;
+}
+
+.kekiri{
+    text-align: left;
+}
+.kekanan{
+    text-align: right;
 }

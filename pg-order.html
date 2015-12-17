@@ -37,10 +37,10 @@
                                 <div class="item-inner"> 
                                     <div class="item-title label">Alamat penjemputan</div>
                                     <div class="item-input">
-                                        <select>
-                                            <option>Opsi satu</option>
-                                            <option>Opsi dua</option>
-                                            <option>Tambahkan alamat</option>
+                                        <select id="f_alamatJemput">
+                                            <option value="1">Opsi satu</option>
+                                            <option value="2">Opsi dua</option>
+                                            <option value="3">Tambahkan alamat</option>
                                         </select>
                                     </div>
                                 </div>
@@ -91,22 +91,22 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Pilih jenis layanan</div>
                                     <div class="item-input">
-                                        <select>
-                                            <option>Laundry kiloan</option>
-                                            <option>Laundry satuan</option>
-                                            <option>Dry Cleaning</option>
+                                        <select id="f_layanan">
+                                            <option value="1">Laundry kiloan</option>
+                                            <option value="2">Laundry satuan</option>
+                                            <option value="3">Dry Cleaning</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li id="li_kg">
                             <div class="item-content">
                                 <div class="item-media"><i class="fa fa-cart-plus"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Jumlah</div>
                                     <div class="item-input">
-                                        <input type="number" placeholder="Kg" name="f_kg"/>
+                                        <input type="number" placeholder="Kg" name="f_kg" id="f_kg"/>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Catatan khusus</div>
                                     <div class="item-input">
-                                        <textarea class="resizable"></textarea>
+                                        <textarea class="resizable" id="f_catatanKhusus"></textarea>
                                     </div>   
                                 </div>
                             </div>
@@ -126,43 +126,26 @@
                 </div>
             </div>
             <div class="tab" id="tab_laundry" >
-                <div class="content-block-title">Agen Laundry</div>
+                <div class="content-block-title">Pilih agen laundry</div>
                 <div class="list-block media-list">
-                    <ul>
-                        <li>
-                            <a href="#" class="item-link item-content">
-                                <div class="item-media avaBunder">
-                                    <img src="img/Laundry_Valet_Service.jpg" alt="foto"/>
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">Laundry Asoy</div>
-                                        <div class="item-after">3 Km</div>
-                                    </div>
-                                    <div class="item-subtitle"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></div>
-                                    <div class="item-text">
-                                        Harga Rp 8.000/Kg
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="item-link item-content open-popup" data-popup=".popup_tarif">
-                                <div class="item-media avaBunder">
-                                    <img src="img/Laundry_Valet_Service.jpg" alt="foto"/>
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">Laundry Popup</div>
-                                        <div class="item-after">3 Km</div>
-                                    </div>
-                                    <div class="item-subtitle"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></div>
-                                    <div class="item-text">
-                                        Ada 11 layanan dry clean
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+                    <ul id="ul_result">
+                        <!--                        <li>
+                                                    <a href="#" class="item-link item-content">
+                                                        <div class="item-media avaBunder">
+                                                            <img src="img/Laundry_Valet_Service.jpg" alt="foto"/>
+                                                        </div>
+                                                        <div class="item-inner">
+                                                            <div class="item-title-row">
+                                                                <div class="item-title">Laundry Asoy</div>
+                                                                <div class="item-after">3 Km</div>
+                                                            </div>
+                                                            <div class="item-subtitle"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></div>
+                                                            <div class="item-text">
+                                                                Harga Rp 8.000/Kg
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>-->
                     </ul>
                 </div>
 
@@ -172,19 +155,94 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-content-inner">
-                            <p>Alamat penjemputan: Jl asoy geboy</p>
-                            <p>Jenis layanan: Dry Cleaning</p>
-                            <p>Layanan: safari 2 pc, kemeja 1 pc</p>
-                            <p>Catatan khusus: jangan pakai molto</p>
-                            <p>Total harga: Rp25.000</p>
-                            <p>Jarak 3 Km</p>
-                            <p>Ongkos kirim: Rp 3.000</p>
-                            <p>Total Rp28.000</p>
-                            <p><a href="#" class="button button-raised button-fill color-blue close-popup">Konfirmasi</a></p>
-
+                            <div class="row">
+                                <div class="col-25 kekiri">Alamat penjemputan</div>
+                                <div class="col-75 kekiri" id="txt_alamat">Jl asoy geboy 232423429 kafljflkasjfl 9284028 aksldjflka</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Jenis layanan</div>
+                                <div class="col-75 kekiri" id="txt_jenisLayanan">Dry cleaning</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Catatan khusus</div>
+                                <div class="col-75 kekiri" id="txt_catatan">jangan pakai molto</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Layanan</div>
+                                <div class="col-75 kekiri" id="txt_layanan">
+                                    <div class="row no-gutter">
+                                        <div class="col-75 kekiri">Safari</div>
+                                        <div class="col-25 kekanan">Rp30.000</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Total harga</div>
+                                <div class="col-75 kekiri" id="txt_harga">Rp25.000</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Jarak</div>
+                                <div class="col-75 kekiri" id="txt_jarak">3 Km</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Ongkos</div>
+                                <div class="col-75 kekiri" id="txt_ongkos">Rp30.000</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-25 kekiri">Total</div>
+                                <div class="col-75 kekiri" id="txt_total">Rp300.000</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <br/>
+                <div class="card">
+                    <div class="list-block media-list">
+                        <ul>
+
+                            <li class="item-content">
+                                <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">Laundry kiloan</div>
+                                        <div class="item-after">Rp <span class="itemSubTotal">30.000</span>&nbsp;/<span class="itemQty">3</span> Kg <a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"></span></a></div>
+                                    </div>
+                                    <div class="item-subtitle">Rp 7.000</div>
+                                </div>
+                            </li>
+
+                            <li class="item-content">
+                                <div class="item-media"><img src="img/Laundry_Valet_Service.jpg" width="44"/></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">Safari stelan</div>
+                                        <div class="item-after"><span class="itemQty">3</span> Kg, Rp <span class="itemSubTotal">30.000</span><a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"> </span></a></div>
+                                    </div>
+                                    <div class="item-subtitle"><i class="color-bluegray">Rp 11.000</i></div>
+                                </div>
+                            </li>
+
+                            <li class="item-content">
+
+                                <div class="item-media"><span class="fa fa-plus fa-2x"></span></div>
+                                <div class="item-inner">
+                                    <a href="pg-layanan.html">Tambah Layanan</a>
+                                </div>
+                            </li>
+
+                            <li class="item-content">
+                                <div class="item-media"><span class="fa fa-money fa-lg"></span></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">Total</div>
+                                        <div class="item-after">Rp.12345</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <p><a href="#" class="button button-raised button-fill color-blue close-popup">Konfirmasi</a></p>
             </div>
         </div>
     </div>

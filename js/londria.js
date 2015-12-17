@@ -38,8 +38,7 @@ var WS = {
                 WS.log = {"textStatus": textStatus, "jqXHR": jqXHR};
                 //console.log("datanya ws: "+ JSON.stringify(data));
 
-                if (callback && typeof (callback) === "function")
-                {
+                if (callback && typeof (callback) === "function") {
                     callback();
                 }
             },
@@ -72,15 +71,15 @@ var WS = {
             beforeSend: function (xhr)
             {
                 WS.result = null;
-                LDR.showPreloader("Mohon Tunggu");
+                //LDR.showPreloader("Mohon Tunggu");
+                LDR.showIndicator();
             },
             success: function (data, textStatus, jqXHR)
             {
                 WS.result = data;
                 WS.log = {"textStatus": textStatus, "jqXHR": jqXHR};
                 //console.log("datanya ws: "+ JSON.stringify(data));
-                if (callback && typeof (callback) === "function")
-                {
+                if (callback && typeof (callback) === "function") {
                     callback();
                 }
             },
@@ -90,14 +89,16 @@ var WS = {
                 console.log("Terdapat error saat mengambil data dari server: " + errorThrown);
                 setTimeout(function ()
                 {
-                    LDR.hidePreloader();
+                    //LDR.hidePreloader();
+                    LDR.hideIndicator();
                 }, 300);
             },
             complete: function (jqXHR, textStatus)
             {
                 setTimeout(function ()
                 {
-                    LDR.hidePreloader();
+                    //LDR.hidePreloader();
+                    LDR.hideIndicator();
                 }, 300);
             }
         });
@@ -115,11 +116,9 @@ var app = {
     },
     bindEvents: function ()
     {
-        if (app.isPhonegap())
-        {
+        if (app.isPhonegap()) {
             document.addEventListener('deviceready', this.onDeviceReady, false);
-        } else
-        {
+        } else {
             window.onload = this.onDeviceReady();
         }
     },
@@ -179,8 +178,7 @@ var app = {
         });
 
         // cek dlu klo belum ada ambil dari server
-        if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null)
-        {
+        if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null) {
             //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
             //    {
             //        console.log(data);
@@ -208,8 +206,7 @@ Pengguna = {
     get_fav: function ()
     {
         // ambil data dari DB
-        if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null)
-        {
+        if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null) {
             Pengguna.data = {
                 favorit: [
                     {
@@ -281,8 +278,7 @@ Pengguna = {
     },
     get_promo: function ()
     {
-        if (LDR.params.template7Data['page:pgPromo'] === undefined || LDR.params.template7Data['page:pgPromo'] === null)
-        {
+        if (LDR.params.template7Data['page:pgPromo'] === undefined || LDR.params.template7Data['page:pgPromo'] === null) {
             $$.getJSON(URL.api + 'promo/', {"token": $user.token}, function (data)
             {
                 LDR.params.template7Data['page:pgPromo'] = data.result_data;
@@ -347,14 +343,11 @@ var KeranjangCTL = {
         var badge = $$('.KRJtotal');
         //console.log(badge);
         badge.text(parseInt(Keranjang.totalQty));
-        if (Keranjang.totalQty === 0)
-        {
+        if (Keranjang.totalQty === 0) {
             var badge = $$('.keKeranjang').hide();
-        } else
-        {
+        } else {
 
-            if ($$('.keKeranjang').css('display') === 'none')
-            {
+            if ($$('.keKeranjang').css('display') === 'none') {
                 $$('.keKeranjang').show();
             }
         }
@@ -390,19 +383,16 @@ var Barang = function ()
 
 Barang.prototype.doing = function (operator)
 {
-    if (operator === 'tambah')
-    {
+    if (operator === 'tambah') {
         this.subQty += 1;
         this.subTotal = this.hargaSatuan * this.subQty;
         this.setLabel();
         Keranjang.totalQty += 1;
         //console.log("tambah dari"+this.isi());
         return "ditambahkan";
-    } else
-    {
+    } else {
         this.subQty -= 1;
-        if (this.subQty < 0)
-        {
+        if (this.subQty < 0) {
             LDR.alert("Keranjang anda kosong");
             return false;
         }
@@ -461,16 +451,13 @@ function keLayanan()
 function hapusArray(obj, prop, val)
 {
     var c, found = false;
-    for (c in obj)
-    {
-        if (obj[c][prop] === val)
-        {
+    for (c in obj) {
+        if (obj[c][prop] === val) {
             found = true;
             break;
         }
     }
-    if (found)
-    {
+    if (found) {
         //delete obj[c]; malah undefined
         obj.splice(c, 1);
     }
@@ -483,8 +470,7 @@ function func_replaceBarang(Barang)
     hapusArray(Keranjang.barang, 'idLayanan', idLay);
 
     //masukan barang ke keranjang lagi
-    if (Barang.subQty > 0)
-    {
+    if (Barang.subQty > 0) {
         Keranjang.barang.push(Barang);
     }
 }
@@ -512,8 +498,10 @@ function func_timeRel(time)
 
 function func_jarak(lokasiLaundry)
 {
+    // untuk menghitung jarak KM dari lokasi A, ke B
     return Math.round(haversine(Pengguna.data.lokasi, lokasiLaundry));
 }
+
 var rating = new Array();
 rating[0] = '<span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
 rating[1] = '<span class="fa fa-star"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span><span class="fa fa-star-o"></span>';
@@ -531,14 +519,12 @@ rating[5] = '<span class="fa fa-star"></span><span class="fa fa-star"></span><sp
 LDR.onPageBeforeAnimation('*', function (page)
 {
     console.log("on *");
-    if (Keranjang.totalQty === 0)
-    {
+    if (Keranjang.totalQty === 0) {
 
         //Jika keranjang kosong/baru masuk menu, ambil data dari db, tabel keranjang
         db.getItem('keranjang').then(function (value)
         {
-            if (value !== null)
-            {
+            if (value !== null) {
                 Keranjang = value; // masukan data db ke objek keranjang
                 console.log("ambil data dari db");
             }
@@ -624,8 +610,7 @@ LDR.onPageInit('pgProfil', function (page)
 {
     // ambil data dari localStorage
     var storedData = LDR.formGetData('#form_profil');
-    if (storedData)
-    {
+    if (storedData) {
         //alert(JSON.stringify(storedData));
         //masukan data json ke dalam form
         LDR.formFromJSON('#form_profil', storedData);
@@ -702,11 +687,9 @@ LDR.onPageInit('pgKeranjang', function (page)
     {
         var tabSkrg = $$('.tab-link.active').text();
 
-        if (tabSkrg === "Keranjang")
-        {
+        if (tabSkrg === "Keranjang") {
             LDR.showTab("#tab_alamat");
-        } else if (tabSkrg === "Alamat")
-        {
+        } else if (tabSkrg === "Alamat") {
             LDR.showTab("#tab_konfirmasi");
         }
 
@@ -785,8 +768,7 @@ LDR.onPageInit('pgLaundry', function (page)
 
     $$('#tab_sekitar').on('show', function ()
     {
-        if (window.pgLaundry === 0)
-        {
+        if (window.pgLaundry === 0) {
             var param = $user.location;
             param.token = $user.token;
 
@@ -941,7 +923,7 @@ LDR.onPageBeforeInit('pgPromo', function (page)
 {
     //LDR.router.load({context: window.ws_result.result_data.promo});
 });
-//
+
 //======================================
 //              pg-tracking.html
 //======================================
@@ -953,35 +935,31 @@ LDR.onPageInit('pgTracking', function (page)
 
         var kode = $$('#f_KodeOrder').val().trim();
 
-        if (kode === '')
-        {
+        if (kode === '') {
             LDR.alert("Isikan kode order kamu");
-        } else
-        {
+        } else {
             WS.get('tracking/', {"token": $user.token, "id": kode}, function ()
             {
-                if (WS.result.result_code !== '00')
-                {
+                if (WS.result.result_code !== '00') {
                     LDR.alert(WS.result.result_msg);
-                } else
-                {
+                } else {
                     var listTracking = "";
-                    var foto    = ['tumpukan-pakaian.png', 'jepitan.png', 'mesin-cuci.png','mesin-cuci.png', 'setrika.png', 'pakaian-rapih.png'];
-                    var status  = ["Submit Order", "Pickup", "Menunggu antrian cuci", "Dicuci", "Disetrika", "Selesai diproses"];
-                    
+                    var foto = ['tumpukan-pakaian.png', 'jepitan.png', 'mesin-cuci.png', 'mesin-cuci.png', 'setrika.png', 'pakaian-rapih.png'];
+                    var status = ["Submit Order", "Pickup", "Menunggu antrian cuci", "Dicuci", "Disetrika", "Selesai diproses"];
+
                     $$.each(WS.result.result_data.tracking, function (index, value)
                     {
                         var row = WS.result.result_data.tracking[index];
                         listTracking += '<li>' +
                                 '<a href="#" class="item-link item-content">' +
-                                '<div class="item-media"><img src="img/'+ foto[row.posisi] +'" width="80"></div>' +
+                                '<div class="item-media"><img src="img/' + foto[row.posisi] + '" width="80"></div>' +
                                 '<div class="item-inner">' +
                                 '<div class="item-title-row">' +
-                                '<div class="item-title">'+ status[row.posisi] +'</div>' +
-                                '<div class="item-after">'+row.id+'</div>' +
+                                '<div class="item-title">' + status[row.posisi] + '</div>' +
+                                '<div class="item-after">' + row.id + '</div>' +
                                 '</div>' +
-                                '<div class="item-subtitle">'+ row.nama_laundry +'</div>' +
-                                '<div class="item-text">'+ row.waktu +'</div>' +
+                                '<div class="item-subtitle">' + row.nama_laundry + '</div>' +
+                                '<div class="item-text">' + row.waktu + '</div>' +
                                 '</div>' +
                                 '</a>' +
                                 '</li>';
@@ -992,5 +970,253 @@ LDR.onPageInit('pgTracking', function (page)
             });
         }
 
+    });
+});
+
+
+//======================================
+//              pg-order.html
+//======================================
+LDR.onPageInit('pgOrder', function (page)
+{
+    window.$newOrder = {
+        "dom_kiloan": false,
+        "data": {
+            "id_alamat": "",
+            "id_laundry": null,
+            "alamat": "",
+            "no_tlp": "",
+            "jenis_layanan": "1",
+            "produk": "",
+            "catatan": ""
+        },
+        "act_save": function ()
+        {
+            $newOrder.data.id_alamat = $$('#f_alamatJemput').val().trim();
+            $newOrder.data.alamat = $$('#txt_alamat').text().trim();
+            $newOrder.data.no_tlp = $$('#txt_tlp').text().trim();
+            $newOrder.data.catatan = $$('#f_catatanKhusus').val().trim();
+            $newOrder.data.jenis_layanan = $$('#f_layanan').val().trim();
+        },
+        "act_nextTab": function (tabSkrg)
+        {
+            $newOrder.act_save();
+
+            if (tabSkrg === "Informasi") {
+
+                if ($newOrder.data.jenis_layanan === '1') {
+                    if ($$('#f_kg').val().trim() < 1 || $$('#f_kg').val().trim() === "") // validasi jumlah kg laundry kiloan
+                    {
+
+                        LDR.alert("Silahkan isikan jumlah Kg");
+                    } else {
+                        LDR.showTab("#tab_laundry");
+                    }
+                } else {
+                    LDR.showTab("#tab_laundry");
+                }
+
+            } else if (tabSkrg === "Laundry") {
+                LDR.showTab("#tab_konfirmasi");
+            }
+        },
+        "show_kiloan": function ()
+        {
+            // perlu di cek udah dipilih atau belum laundrynya
+            // untuk mengatur jenis list laundry
+            var laundrySekitar = null;
+
+            try {
+                laundrySekitar = WS.result.result_data.laundry;
+            } catch (err) {
+                laundrySekitar = null;
+            }
+
+            // validasi kalo belum milih laundry, atau belum di masukin dom
+            if ($newOrder.data.id_laundry === null) {
+                var param = $user.location;
+                param.token = $user.token;
+
+                if (laundrySekitar === null) {
+                    console.log("call WS laundry kiloan di sekitar");
+                    WS.get("laundry/sekitar/", param, function ()
+                    {
+                        $newOrder.dom_listKiloan();
+                    });
+                } else {
+                    // kalo udah ada list laundry sekitar langsung masukin dom
+                    $newOrder.dom_listKiloan();
+                }
+            } else {
+                console.log("muncul menu ganti laundry");
+            }
+        },
+        "show_konfirmasi": function(){
+            
+        },
+        "dom_listKiloan": function ()
+        {
+            //console.log(WS.result.result_data.laundry);
+            if ($newOrder.dom_kiloan === false) {
+
+                console.log("muncul list laundry kiloan di sekitar");
+                var listSekitar = "";
+                
+                var list_laudryKiloan = WS.result.result_data.laundry.filter(function (el)
+                {
+                    // filter laundry hanya yg kiloan ajah
+                    return (el.kiloan === true);
+                });
+                
+                $$.each(list_laudryKiloan, function (index, value)
+                {
+                    var row = WS.result.result_data.laundry[index];
+                    var jarak = func_jarak(row.posisi);
+                    listSekitar += '<li>'
+                            + '<a href="#" data-id="' + row.id + '" class="item-link item-content li_kiloan">'
+                            + '<div class="item-media">'
+                            + '<img src="' + URL.imgProfil + row.foto + '" alt="foto ' + row.nama + '"/>'
+                            + '</div>'
+                            + '<div class="item-inner">'
+                            + '<div class="item-title-row">'
+                            + '<div class="item-title txt_namaLaundry">' + row.nama + '</div>'
+                            + '<div class="item-after">' + jarak + ' Km</div>'
+                            + '</div>'
+                            + '<div class="item-subtitle">' + rating[row.rating] + '</div>'
+                            + '<div class="item-text">'
+                            + 'Harga Rp7.000/Kg'
+                            + '</div>'
+                            + '</div>'
+                            + '</a>'
+                            + '</li>';
+                });
+                $$('#ul_result').html(listSekitar);
+                $newOrder.dom_kiloan = true;
+            }
+        }
+
+    };
+
+    $$('#f_layanan').on('change', function ()
+    {
+        if ($$(this).val() === '1') {
+            $$('#li_kg').show();
+        } else {
+            $$('#li_kg').hide();
+        }
+    });
+
+
+    // navigasi tab
+    $$('.floating-button').on('click', function ()
+    {
+        var tabSkrg = $$('.tab-link.active').text();
+        $newOrder.act_nextTab(tabSkrg);
+    });
+
+    $$('#tab_info').on('show', function ()
+    {
+        $newOrder.act_save();
+    });
+
+    $$('#tab_laundry').on('show', function ()
+    {
+        $newOrder.act_save();
+        if ($newOrder.data.jenis_layanan === '1') // 1: Laundry kiloan
+        {
+            if ($$('#f_kg').val().trim() < 1 || $$('#f_kg').val().trim() === "") // validasi jumlah kg laundry kiloan
+            {
+                //LDR.showTab("#tab_info");
+                LDR.alert("Silahkan isi jumlah Kg");
+            } else {
+                $newOrder.show_kiloan();
+            }
+        }
+    });
+
+    $$('#tab_konfirmasi').on('show', function ()
+    {
+        $newOrder.act_save();
+
+        if ($newOrder.data.id_laundry === null) {
+            //LDR.showTab("#tab_laundry");
+            LDR.alert("Silahkan pilih laundry dahulu");
+        }
+        
+        
+    });
+
+    $$(document).on('click', '.li_kiloan', function ()
+    {
+        var nama = $$(this).find('.txt_namaLaundry').text();
+        var dataset = $$.dataset($$(this));
+        //console.log(dataset);
+        $$('a.disabled').removeClass('disabled');
+        $newOrder.data.id_laundry = dataset.id;
+        //LDR.alert("Laundry dipilih " + nama);
+        LDR.showTab("#tab_konfirmasi");
+    });
+    
+    $$('.popOpsi').on('click', function ()
+    {
+        //overite variabel global itemId
+        itemId = $$(this).parents('.item-content').find('.item-title').text();
+        itemIni = $$(this).parents('.item-content');
+
+        //console.log(itemId);
+        var clickedLink = this;
+        LDR.popover('.popoverOpsi', clickedLink);
+    });
+
+    // class ItemHapus adanya di index.html
+    $$('.itemHapus').on('click', function ()
+    {
+
+        LDR.closeModal(); // menutup popoverOpsi
+        LDR.confirm('Apakah kamu yakin?', 'Hapus Item',
+                function ()
+                {
+                    itemIni.hide(); //proses hapus
+                    LDR.alert(itemId + ' Dihapus');
+                },
+                function ()
+                {
+                    LDR.alert('You clicked Cancel button');
+                }
+        );
+    });
+
+
+    $$('.itemUbahJum').on('click', function ()
+    {
+        LDR.closeModal(); // menutup popoverOpsi
+
+        // dibuat timeout agar syncronus setelah elemen muncul
+        setTimeout(function ()
+        {
+            pickerDevice.open();
+        }, 10);
+
+
+    });
+
+    // membuat picker Jumlah
+    var pickerDevice = LDR.picker({
+        cols: [
+            {
+                textAlign: 'center',
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+            }
+        ],
+        onClose: function (p)
+        {
+            var nilai = p.value;
+            // setelah di dapat nilai baru
+
+            //console.log(nilai);
+            // masukan nilai baru ke element jumlah/update database
+            itemIni.find('.itemQty').text(nilai);
+
+        }
     });
 });
