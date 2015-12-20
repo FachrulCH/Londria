@@ -38,19 +38,17 @@
                                     <div class="item-title label">Alamat penjemputan</div>
                                     <div class="item-input">
                                         <select id="f_alamatJemput">
-                                            <option value="1">Opsi satu</option>
-                                            <option value="2">Opsi dua</option>
-                                            <option value="3">Tambahkan alamat</option>
+                                            <option value="x" selected="">Pilih alamat</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li id="li_alamat" style="display: none">
                             <div class="item-content">
                                 <div class="item-media"></div>
                                 <div class="item-inner"> 
-                                    <span id="txt_alamat">Jl. alamat ini itu no 1234 Rt 002 rw 003</span>
+                                    <span id="txt_alamat"></span>
                                 </div>
                             </div>
                         </li>
@@ -58,7 +56,7 @@
                             <div class="item-content">
                                 <div class="item-media"><i class="fa fa-phone"></i></div>
                                 <div class="item-inner"> 
-                                    <span id="txt_tlp">085776914000</span>
+                                    <span id="txt_tlp">085776914000</span> <a href="pg-profil.html" class="kekanan">&nbsp; <span class="fa fa-edit"></span> &nbsp;</a>
                                 </div>
                             </div>
                         </li>
@@ -127,7 +125,7 @@
             </div>
             <div class="tab" id="tab_laundry" >
                 <div class="content-block-title">Pilih agen laundry</div>
-                <div class="list-block media-list">
+                <div class="list-block media-list virtual-list">
                     <ul id="ul_result">
                         <!--                        <li>
                                                     <a href="#" class="item-link item-content">

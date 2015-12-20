@@ -65,14 +65,14 @@ var app = {
 
         // Add view
         window.mainView = LDR.addView('.view-main', {});
-        
+
         // alias buat localforage
         //http://mozilla.github.io/localForage/
         window.db = localforage || {};
         db.config({
             name: 'dbLondria'
         });
-        
+
         // cek dlu klo belum ada ambil dari server
         if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null) {
             //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
@@ -99,12 +99,13 @@ window.$user = {
         "no_tlp": "081111111",
         "email": "developer@email.com",
         "posisi": {
-                    "latitude": -6.2036776,
-                    "longitude": 106.8214523
-                },
+            "latitude": -6.2036776,
+            "longitude": 106.8214523
+        },
         "lokasi": [
             {
                 "id": '1',
+                "nama": "Alamat satu",
                 "alamat": "jl alamat satu no 1",
                 "koordinat": {
                     "latitude": -6.2036776,
@@ -112,6 +113,7 @@ window.$user = {
                 }
             }, {
                 "id": '2',
+                "nama": "Alamat Dua",
                 "alamat": "jl alamat satu no 2",
                 "koordinat": {
                     "latitude": -6.2038776,
@@ -127,72 +129,103 @@ window.$user = {
         "token": '12345678'
     },
     favorit: [],
-    get_fav: function(){
-         // ambil data dari DB
+    get_fav: function ()
+    {
+        // ambil data dari DB
         if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null) {
             $user.favorit = [
-                    {
-                        "id": 123,
-                        "nama": "Laundry Asoy",
-                        "posisi": {
-                            "latitude": -6.1753871,
-                            "longitude": 106.8249587
-                        },
-                        "alamat": "Rumahnya ini disini",
-                        "buka": "Setiap hari, 09:00-22:00",
-                        "foto": URL.imgProfil + "avatar.png",
-                        "desc": "Ini adalah deskripsi",
-                        "layanan": [
-                            {"id": 1234,
-                                "nama": "cuci",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            },
-                            {"id": 2222,
-                                "nama": "gosok",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            }
-                        ]
+                {
+                    "id": 123,
+                    "nama": "Laundry Asoy",
+                    "posisi": {
+                        "latitude": -6.1753871,
+                        "longitude": 106.8249587
                     },
-                    {
-                        "id": 2222,
-                        "nama": "Laundry Geboy",
-                        "posisi": {
-                            "latitude": -6.1594736,
-                            "longitude": 106.7853433
+                    "alamat": "Rumahnya ini disini",
+                    "buka": "Setiap hari, 09:00-22:00",
+                    "foto": URL.imgProfil + "avatar.png",
+                    "desc": "Ini adalah deskripsi",
+                    "layanan": [
+                        {"id": 1234,
+                            "nama": "cuci",
+                            "foto": ".jpg",
+                            "harga": 10000
                         },
-                        "alamat": "Jl. alamat laundry geboy euy",
-                        "buka": "Setiap hari, 09:00-22:00",
-                        "foto": URL.imgProfil + "avatar2.png",
-                        "desc": "Ini adalah deskripsi",
-                        "layanan": [
-                            {"id": 1234,
-                                "nama": "cuci",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            },
-                            {"id": 2222,
-                                "nama": "gosok",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            }
-                        ]
-                    }
-                ]
-            };
+                        {"id": 2222,
+                            "nama": "gosok",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        }
+                    ]
+                },
+                {
+                    "id": 2222,
+                    "nama": "Laundry Geboy",
+                    "posisi": {
+                        "latitude": -6.1594736,
+                        "longitude": 106.7853433
+                    },
+                    "alamat": "Jl. alamat laundry geboy euy",
+                    "buka": "Setiap hari, 09:00-22:00",
+                    "foto": URL.imgProfil + "avatar2.png",
+                    "desc": "Ini adalah deskripsi",
+                    "layanan": [
+                        {"id": 1234,
+                            "nama": "cuci",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        },
+                        {"id": 2222,
+                            "nama": "gosok",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        }
+                    ]
+                }
+            ];
 
+            console.log("Looping fav");
 
-            // Hitung jarak laundry dengan posisi sekarang
-            $$.each($user.favorit, function (index, value)
-            {
-                $user.favorit[index].jarak = func_jarak($user.favorit[index].posisi);
-            });
-
-
-            LDR.params.template7Data['page:pgLaundry'] = {favorit: $user.favorit};
-            console.log("getFav");
+            for (var i = 0; i < 5000; i++) {
+                $user.favorit.push({
+                    "id": "9" + i,
+                    "nama": "Laundry virtual " + i,
+                    "posisi": {
+                        "latitude": -6.2038774,
+                        "longitude": 106.8214524
+                    },
+                    "alamat": "Jl. laundry virtual list " + i,
+                    "buka": "Setiap hari, 09:00-22:00",
+                    "foto": URL.imgProfil + "avatar2.png",
+                    "desc": "Ini adalah deskripsi",
+                    "layanan": [
+                        {"id": 1234,
+                            "nama": "cuci",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        },
+                        {"id": 2222,
+                            "nama": "gosok",
+                            "foto": ".jpg",
+                            "harga": 10000
+                        }
+                    ]
+                });
+            }
         }
+        ;
+
+
+        // Hitung jarak laundry dengan posisi sekarang
+        $$.each($user.favorit, function (index, value)
+        {
+            $user.favorit[index].jarak = func_jarak($user.favorit[index].posisi);
+        });
+
+
+        LDR.params.template7Data['page:pgLaundry'] = {favorit: $user.favorit};
+        console.log("getFav");
+    }
     ,
     get_promo: function ()
     {
@@ -578,36 +611,70 @@ window.$newOrder = {
                 console.log("muncul list laundry kiloan di sekitar");
                 var listSekitar = "";
 
+                // testing banyaknya laundry sekitar
+                for (var i = 0; i < 1000; i++) {
+                    WS.result.result_data.laundry.push({"id": 123, "nama": "Laundry virtual " + i, "posisi": {"latitude": -6.1253871, "longitude": 106.2249587}, "alamat": "Rumahnya ini disini", "buka": "Setiap hari, 09:00-22:00", "foto": "avatar.png", "desc": "Ini adalah deskripsi", "rating": 4, "kiloan": true, "layanan_kiloan": {"id": "001", "nama": "Laundry kiloan virtual " + 1, "harga": 7000, "foto": "kiloan.jpg"}});
+                }
+
+
                 window.list_laudryKiloan = WS.result.result_data.laundry.filter(function (el)
                 {
                     // filter laundry hanya yg kiloan ajah
                     return (el.kiloan === true);
                 });
 
-                $$.each(list_laudryKiloan, function (index, value)
-                {
-                    var row = list_laudryKiloan[index];
-                    var jarak = func_jarak(row.posisi);
-                    listSekitar += '<li>'
-                            + '<a href="#" data-id="' + row.id + '" data-harga="' + row.layanan_kiloan.harga + '" data-alamat="' + row.alamat + '" data-index="' + index + '" class="item-link item-content li_kiloan">'
-                            + '<div class="item-media">'
-                            + '<img class="img_layanan" src="' + URL.imgProfil + row.foto + '" alt="foto ' + row.nama + '"/>'
-                            + '</div>'
-                            + '<div class="item-inner">'
-                            + '<div class="item-title-row">'
-                            + '<div class="item-title txt_namaLaundry">' + row.nama + '</div>'
-                            + '<div class="item-after">' + jarak + ' Km</div>'
-                            + '</div>'
-                            + '<div class="item-subtitle">' + rating[row.rating] + '</div>'
-                            + '<div class="item-text">'
-                            + 'Harga ' + func_numRp(row.layanan_kiloan.harga) + '/Kg'
-                            + '</div>'
-                            + '</div>'
-                            + '</a>'
-                            + '</li>';
+//                ganti virutalist
+//                $$.each(list_laudryKiloan, function (index, value)
+//                {
+//                    var row = list_laudryKiloan[index];
+//                    var jarak = func_jarak(row.posisi);
+//                    listSekitar += '<li>'
+//                            + '<a href="#" data-id="' + row.id + '" data-harga="' + row.layanan_kiloan.harga + '" data-alamat="' + row.alamat + '" data-index="' + index + '" class="item-link item-content li_kiloan">'
+//                            + '<div class="item-media">'
+//                            + '<img class="img_layanan" src="' + URL.imgProfil + row.foto + '" alt="foto ' + row.nama + '"/>'
+//                            + '</div>'
+//                            + '<div class="item-inner">'
+//                            + '<div class="item-title-row">'
+//                            + '<div class="item-title txt_namaLaundry">' + row.nama + '</div>'
+//                            + '<div class="item-after">' + jarak + ' Km</div>'
+//                            + '</div>'
+//                            + '<div class="item-subtitle">' + rating[row.rating] + '</div>'
+//                            + '<div class="item-text">'
+//                            + 'Harga ' + func_numRp(row.layanan_kiloan.harga) + '/Kg'
+//                            + '</div>'
+//                            + '</div>'
+//                            + '</a>'
+//                            + '</li>';
+//                });
+//                $$('#ul_result').html(listSekitar);
+
+                // Create virtual list
+                var virtualList = LDR.virtualList('.virtual-list', {
+                    items: window.list_laudryKiloan, // data buat virtualist
+                    renderItem: function (index, item)
+                    {
+                        return '<li>'
+                                + '<a href="#" data-id="' + item.id + '" data-harga="' + item.layanan_kiloan.harga + '" data-alamat="' + item.alamat + '" data-index="' + index + '" class="item-link item-content li_kiloan">'
+                                + '<div class="item-media">'
+                                + '<img class="img_layanan" src="' + URL.imgProfil + item.foto + '" alt="foto ' + item.nama + '"/>'
+                                + '</div>'
+                                + '<div class="item-inner">'
+                                + '<div class="item-title-row">'
+                                + '<div class="item-title txt_namaLaundry">' + item.nama + '</div>'
+                                + '<div class="item-after">' + func_jarak(item.posisi) + ' Km</div>'
+                                + '</div>'
+                                + '<div class="item-subtitle">' + rating[item.rating] + '</div>'
+                                + '<div class="item-text">'
+                                + 'Harga ' + func_numRp(item.layanan_kiloan.harga) + '/Kg'
+                                + '</div>'
+                                + '</div>'
+                                + '</a>'
+                                + '</li>';
+                    }
                 });
-                $$('#ul_result').html(listSekitar);
+
                 $newOrder.dom_kiloan = true;
+
             }
         } else {
             console.log("Ganti laundry neh coy");
@@ -634,6 +701,38 @@ window.$newOrder = {
             $$('#ul_result').html(listSekitar);
 
         }
+    },
+    "validate": function ()
+    {
+        var hasil = true;
+        if ($newOrder.data.id_alamat === "x" || $newOrder.data.id_alamat === "0") {
+            LDR.alert("Silahkan pilih alamat penjemputan");
+            LDR.showTab("#tab_info");
+            hasil = false;
+        }
+
+        if ($newOrder.data.jenis_layanan === '1') { // kiloan
+            if ($$('#f_kg').val().trim() < 1 || $$('#f_kg').val().trim() === "") // validasi jumlah kg laundry kiloan
+            {
+
+                LDR.alert("Silahkan isikan jumlah Kg");
+                LDR.showTab("#tab_info");
+                hasil = false;
+            }
+
+        }
+
+        if ($newOrder.data.id_laundry === null) {
+            //LDR.showTab("#tab_laundry");
+            LDR.alert("Silahkan pilih laundry dahulu");
+            hasil = false;
+        }
+
+        if ($newOrder.data.grand_total <= 0) {
+            LDR.alert("Total order tidak boleh 0");
+            hasil = false;
+        }
+        return hasil;
     },
     "reset": function ()
     {
@@ -806,12 +905,6 @@ LDR.onPageInit('pgLayanan', function (page)
         KeranjangCTL.refresh();
     });
 
-//    $$.each($$('.toNumeral'), function (index, value) {
-//            numeral(1000).format('$0,0');
-//        });
-
-
-
 });
 
 LDR.onPageBeforeRemove('pgLayanan', function (page)
@@ -941,6 +1034,35 @@ LDR.onPageInit('pgKeranjang', function (page)
 //        maxDate: sysdate.setDate(sysdate.getDate() + 30)
 //    });
 
+});
+
+
+//======================================
+//              pg-virtualist.html
+//======================================
+LDR.onPageInit('pgVirtualist', function (page)
+{
+    console.log("contoh penggunaaan virtualis dimulai");
+    // Create virtual list
+    var virtualList = LDR.virtualList('.virtual-list', {
+        items: $user.favorit,
+        // List item Template7 template
+        template: '<li>'
+                + '<a href="pg-laundry-profil.html?id={{id}}" class="item-link item-content">'
+                + '<div class="item-media">'
+                + '<img src="{{foto}}" alt="foto {{nama}}"/>'
+                + '</div>'
+                + '<div class="item-inner">'
+                + '<div class="item-title-row">'
+                + '<div class="item-title">{{nama}}</div>'
+                + '<div class="item-after">0 Km</div>'
+                + '</div>'
+                + '<div class="item-subtitle">{{buka}}</div>'
+                + '<div class="item-text">{{alamat}}</div>'
+                + '</div>'
+                + '</a>'
+                + '</li>'
+    });
 });
 
 
@@ -1195,7 +1317,35 @@ LDR.onPageInit('pgTracking', function (page)
 LDR.onPageInit('pgOrder', function (page)
 {
     // saat pgOrder di buka, isikan nilai default ke form
+    //----- masukan opsi alamat
+    $$.each($user.profil.lokasi, function (index, value)
+    {
+        var row = $user.profil.lokasi[index];
+        $$('#f_alamatJemput').append('<option value="' + row.id + '" data-alamat="' + row.alamat + '">' + row.nama + '</option>');
+    });
+    $$('#f_alamatJemput').append('<option value="0">(+) Tambah alamat</option>');
 
+    $$('#f_alamatJemput').on('change', function ()
+    {
+        if ($$(this).val() === "0") { //Tambah alamat
+            mainView.router.loadPage('pg-profil-alamat.html');
+        } else {
+            var id_alamat = $$(this).val();
+            //console.log("update alamat =>"+id_alamat);
+
+            // ganti text alamat sesuai opsi alamat yg dipilih
+            var opsiDipilih = $user.profil.lokasi.filter(function (el)
+            {
+                return (el.id === id_alamat);
+            });
+            //console.log(opsiDipilih);
+            $$('#li_alamat').show();
+            
+            $$('#txt_alamat').text(opsiDipilih[0].alamat);
+        }
+        //----- end opsi alamat
+
+    });
 
     $$('#f_layanan').on('change', function ()
     {
@@ -1358,8 +1508,11 @@ LDR.onPageInit('pgOrder', function (page)
 
     $$('#btn_submitOrder').on('click', function ()
     {
-        LDR.alert("Proses submit order \n" + JSON.stringify($newOrder.data));
-        console.log(JSON.stringify($newOrder.data));
+        if ($newOrder.validate()) {
+            LDR.alert("Proses submit order \n" + JSON.stringify($newOrder.data));
+            console.log(JSON.stringify($newOrder.data));
+        }
+
     });
 
     $$('#btn_hapusOrder').on('click', function ()

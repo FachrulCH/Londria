@@ -1,0 +1,64 @@
+<div class="page" data-page="pgVirtualist" >
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="index.html" class="back link icon-only"><i class="icon icon-back"></i></a>
+            </div>
+            <div class="center">Agen Laundry</div>
+            <div class="right"> 
+                <a href="pg-keranjang.html" class="link icon-only"><i class="fa fa-shopping-cart fa-lg"><span class="badge bg-red KRJtotal"></span></i></a>
+                <a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a>
+            </div>
+        </div>
+
+        <div class="toolbar tabbar">
+            <div class="toolbar-inner">
+                <a href="#tab_fav" class="tab-link active">
+                    <span class="fa fa-star-o"> Favorit</span>
+                </a>
+                <a href="#tab_sekitar" class="tab-link">
+                    <span class="fa fa-map-o"> Sekitar</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-content hide-bars-on-scroll">
+        <!-- Jarak aja ini -->
+        <div class="tabs">
+            <div id="tab_fav" class="tab active">
+                <div class="content-block-title"></div> 
+                <div class="list-block media-list">
+                    <ul>
+                        {{#each favorit}}
+                        <li>
+                            <a href="pg-laundry-profil.html?id={{id}}" class="item-link item-content">
+                                <div class="item-media avaBunder">
+                                    <img src="{{foto}}" alt="foto {{nama}}"/>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">{{nama}}</div>
+                                        <div class="item-after">{{jarak}} Km</div>
+                                    </div>
+                                    <div class="item-subtitle">{{buka}}</div>
+                                    <div class="item-text">
+                                        {{alamat}}
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div id="tab_sekitar" class="tab">
+                <div class="content-block-title"></div> 
+                <div class="list-block media-list virtual-list">
+                    <ul id="txt_listSekitar">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
