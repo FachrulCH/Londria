@@ -1,20 +1,218 @@
 //======================================
 //         Deklarasi Objek
 //======================================
+var app = {
+    isPhonegap: function ()
+    {
+        return (typeof (cordova) !== 'undefined' || typeof (phonegap) !== 'undefined');
+    },
+    initialize: function ()
+    {
+        this.bindEvents();
+    },
+    bindEvents: function ()
+    {
+        if (app.isPhonegap()) {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        } else {
+            window.onload = this.onDeviceReady();
+        }
+    },
+    onDeviceReady: function ()
+    {
+        console.log("ready gan");
+        app.receivedEvent('deviceready');
+    },
+    receivedEvent: function (event)
+    {
+        switch (event)
+        {
+            case 'deviceready':
+                app.inisiasi();
+                break;
+        }
+    },
+    inisiasi: function ()
+    {
+        // Initialize app
+        //======================================
+        //         variabel awal
+        //======================================
+        window.LDR = new Framework7({
+            modalTitle: "Londria",
+            material: true,
+            materialPageLoadDelay: 200,
+            sortable: false,
+            pushState: true,
+            pushStateSeparator: '#fch/',
+            //precompileTemplates: true
+            template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
+        });
+
+        window.LDRswiper = LDR.swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            autoplay: 3000,
+            speed: 1500,
+            effect: "coverflow",
+            spaceBetween: 10,
+            preloadImages: false,
+            lazyLoading: true
+        });
+
+        // If we need to use custom DOM library, let's save it to $$ variable:
+        window.$$ = Dom7;
+
+        // Add view
+        window.mainView = LDR.addView('.view-main', {});
+        
+        // alias buat localforage
+        //http://mozilla.github.io/localForage/
+        window.db = localforage || {};
+        db.config({
+            name: 'dbLondria'
+        });
+        
+        // cek dlu klo belum ada ambil dari server
+        if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null) {
+            //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
+            //    {
+            //        console.log(data);
+            //        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data.result_data);
+            //    });
+
+            $$.getJSON(URL.api + 'layanan/', {}, function (data)
+            {
+                LDR.params.template7Data['page:pgLayanan'] = data.result_data;
+            });
+            console.log("get data layanan json");
+        }
+
+    }
+};
+
+app.initialize();
 
 window.$user = {
-    "id": '',
-    "name": '',
-    "location": {"lat": '-6.1753871', "lng": '106.8249587'},
-    "token": '12345678'
+    profil: {
+        "nama": "Kurawall",
+        "no_tlp": "081111111",
+        "email": "developer@email.com",
+        "posisi": {
+                    "latitude": -6.2036776,
+                    "longitude": 106.8214523
+                },
+        "lokasi": [
+            {
+                "id": '1',
+                "alamat": "jl alamat satu no 1",
+                "koordinat": {
+                    "latitude": -6.2036776,
+                    "longitude": 106.8214523
+                }
+            }, {
+                "id": '2',
+                "alamat": "jl alamat satu no 2",
+                "koordinat": {
+                    "latitude": -6.2038776,
+                    "longitude": 106.8214523
+                }
+            }
+        ]
+    },
+    data: {
+        "id": '',
+        "name": '',
+        "location": {"lat": '-6.1753871', "lng": '106.8249587'},
+        "token": '12345678'
+    },
+    favorit: [],
+    get_fav: function(){
+         // ambil data dari DB
+        if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null) {
+            $user.favorit = [
+                    {
+                        "id": 123,
+                        "nama": "Laundry Asoy",
+                        "posisi": {
+                            "latitude": -6.1753871,
+                            "longitude": 106.8249587
+                        },
+                        "alamat": "Rumahnya ini disini",
+                        "buka": "Setiap hari, 09:00-22:00",
+                        "foto": URL.imgProfil + "avatar.png",
+                        "desc": "Ini adalah deskripsi",
+                        "layanan": [
+                            {"id": 1234,
+                                "nama": "cuci",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            },
+                            {"id": 2222,
+                                "nama": "gosok",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2222,
+                        "nama": "Laundry Geboy",
+                        "posisi": {
+                            "latitude": -6.1594736,
+                            "longitude": 106.7853433
+                        },
+                        "alamat": "Jl. alamat laundry geboy euy",
+                        "buka": "Setiap hari, 09:00-22:00",
+                        "foto": URL.imgProfil + "avatar2.png",
+                        "desc": "Ini adalah deskripsi",
+                        "layanan": [
+                            {"id": 1234,
+                                "nama": "cuci",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            },
+                            {"id": 2222,
+                                "nama": "gosok",
+                                "foto": ".jpg",
+                                "harga": 10000
+                            }
+                        ]
+                    }
+                ]
+            };
+
+
+            // Hitung jarak laundry dengan posisi sekarang
+            $$.each($user.favorit, function (index, value)
+            {
+                $user.favorit[index].jarak = func_jarak($user.favorit[index].posisi);
+            });
+
+
+            LDR.params.template7Data['page:pgLaundry'] = {favorit: $user.favorit};
+            console.log("getFav");
+        }
+    ,
+    get_promo: function ()
+    {
+        if (LDR.params.template7Data['page:pgPromo'] === undefined || LDR.params.template7Data['page:pgPromo'] === null) {
+            $$.getJSON(URL.api + 'promo/', {"token": $user.data.token}, function (data)
+            {
+                LDR.params.template7Data['page:pgPromo'] = data.result_data;
+            });
+
+            console.log("get data promo");
+        }
+    },
+    initialize: function ()
+    {
+        this.get_fav();
+        this.get_promo();
+    }
 };
 
-var URL = {
-    api: "http://localhost/londriaServer/api/",
-    imgProfil: 'http://localhost/londriaServer/img/profile/'
-//    url: 'http://fachrul.net/londriaServer/',
-//    imgProfil: 'http://fachrul.net/londriaServer/img/profile/'
-};
+$user.initialize();
 
 var WS = {
     "result": {},
@@ -25,7 +223,7 @@ var WS = {
             url: URL.api + $api,
             method: 'POST',
             dataType: 'json',
-            data: $user,
+            data: $user.data,
             beforeSend: function (xhr)
             {
                 WS.result = null;
@@ -100,201 +298,12 @@ var WS = {
                     //LDR.hidePreloader();
                     LDR.hideIndicator();
                 }, 300);
+                console.log("WS get =>" + $api);
             }
         });
     }
 };
 
-var app = {
-    isPhonegap: function ()
-    {
-        return (typeof (cordova) !== 'undefined' || typeof (phonegap) !== 'undefined');
-    },
-    initialize: function ()
-    {
-        this.bindEvents();
-    },
-    bindEvents: function ()
-    {
-        if (app.isPhonegap()) {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
-        } else {
-            window.onload = this.onDeviceReady();
-        }
-    },
-    onDeviceReady: function ()
-    {
-        console.log("ready gan");
-        app.receivedEvent('deviceready');
-    },
-    receivedEvent: function (event)
-    {
-        switch (event)
-        {
-            case 'deviceready':
-                app.inisiasi();
-                break;
-        }
-    },
-    inisiasi: function ()
-    {
-        // Initialize app
-        //======================================
-        //         variabel awal
-        //======================================
-        window.LDR = new Framework7({
-            modalTitle: "Londria",
-            material: true,
-            materialPageLoadDelay: 200,
-            sortable: false,
-            pushState: true,
-            pushStateSeparator: '#fch/',
-            //precompileTemplates: true
-            template7Pages: true // enable Template7 rendering for Ajax and Dynamic pages
-        });
-
-        window.LDRswiper = LDR.swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
-            paginationClickable: true,
-            autoplay: 3000,
-            speed: 1500,
-            effect: "coverflow",
-            spaceBetween: 10,
-            preloadImages: false,
-            lazyLoading: true
-        });
-
-        // If we need to use custom DOM library, let's save it to $$ variable:
-        window.$$ = Dom7;
-
-        // Add view
-        window.mainView = LDR.addView('.view-main', {});
-
-        // alias buat localforage
-        //http://mozilla.github.io/localForage/
-        window.db = localforage || {};
-        db.config({
-            name: 'dbLondria'
-        });
-
-        // cek dlu klo belum ada ambil dari server
-        if (LDR.params.template7Data['page:pgLayanan'] === undefined || LDR.params.template7Data['page:pgLayanan'] === null) {
-            //    $$.post(CONFIG.url + 'api/layanan/', {}, function (data)
-            //    {
-            //        console.log(data);
-            //        LDR.params.template7Data['page:pgLayanan'] = JSON.parse(data.result_data);
-            //    });
-
-            $$.getJSON(URL.api + 'layanan/', {}, function (data)
-            {
-                LDR.params.template7Data['page:pgLayanan'] = data.result_data;
-            });
-            console.log("get data layanan json");
-        }
-
-    }
-};
-
-app.initialize();
-
-Pengguna = {
-    initialize: function ()
-    {
-        this.get_fav();
-        this.get_promo();
-    },
-    get_fav: function ()
-    {
-        // ambil data dari DB
-        if (LDR.params.template7Data['page:pgLaundry'] === undefined || LDR.params.template7Data['page:pgLaundry'] === null) {
-            Pengguna.data = {
-                favorit: [
-                    {
-                        "id": 123,
-                        "nama": "Laundry Asoy",
-                        "posisi": {
-                            "latitude": -6.1753871,
-                            "longitude": 106.8249587
-                        },
-                        "alamat": "Rumahnya ini disini",
-                        "buka": "Setiap hari, 09:00-22:00",
-                        "foto": URL.imgProfil + "avatar.png",
-                        "desc": "Ini adalah deskripsi",
-                        "layanan": [
-                            {"id": 1234,
-                                "nama": "cuci",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            },
-                            {"id": 2222,
-                                "nama": "gosok",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            }
-                        ]
-                    },
-                    {
-                        "id": 2222,
-                        "nama": "Laundry Geboy",
-                        "posisi": {
-                            "latitude": -6.1594736,
-                            "longitude": 106.7853433
-                        },
-                        "alamat": "Jl. alamat laundry geboy euy",
-                        "buka": "Setiap hari, 09:00-22:00",
-                        "foto": URL.imgProfil + "avatar2.png",
-                        "desc": "Ini adalah deskripsi",
-                        "layanan": [
-                            {"id": 1234,
-                                "nama": "cuci",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            },
-                            {"id": 2222,
-                                "nama": "gosok",
-                                "foto": ".jpg",
-                                "harga": 10000
-                            }
-                        ]
-                    }
-                ],
-                lokasi: {
-                    "latitude": -6.2036776,
-                    "longitude": 106.8214523
-                }
-            };
-
-
-            // Hitung jarak laundry dengan posisi sekarang
-            $$.each(Pengguna.data.favorit, function (index, value)
-            {
-                Pengguna.data.favorit[index].jarak = func_jarak(Pengguna.data.favorit[index].posisi);
-            });
-
-
-            LDR.params.template7Data['page:pgLaundry'] = Pengguna.data;
-            console.log("getFav");
-        }
-    },
-    get_promo: function ()
-    {
-        if (LDR.params.template7Data['page:pgPromo'] === undefined || LDR.params.template7Data['page:pgPromo'] === null) {
-            $$.getJSON(URL.api + 'promo/', {"token": $user.token}, function (data)
-            {
-                LDR.params.template7Data['page:pgPromo'] = data.result_data;
-            });
-
-//            WS.get('promo/', $user.token, function ()
-//            {
-//                LDR.params.template7Data['page:pgPromo'] = WS.result.result_data;
-//            });
-
-            console.log("get data promo");
-        }
-    }
-};
-
-Pengguna.initialize();
 
 //====================================== 
 //         Class Variabel
@@ -436,6 +445,10 @@ Barang.prototype.isi = function ()
     };
 };
 
+//====================================== 
+//         Objek new order di pgOrder 
+//======================================
+//
 //    produk = {
 //        "id": '1',
 //        "nama": 'laundry kiloan',
@@ -444,7 +457,7 @@ Barang.prototype.isi = function ()
 //        "sub_total": this.harga * this.jumlah
 //    };
 
-window.$newOrder = {// buat di pake di pgOrder
+window.$newOrder = {
     "dom_kiloan": false,
     "agen_laundry": {},
     "data": {
@@ -453,6 +466,7 @@ window.$newOrder = {// buat di pake di pgOrder
         "alamat": "",
         "no_tlp": "",
         "jenis_layanan": "1",
+        "grand_total": 0,
         "produk": [],
         "catatan": ""
     },
@@ -498,8 +512,8 @@ window.$newOrder = {// buat di pake di pgOrder
             laundrySekitar = null;
         }
 
-        var param = $user.location;
-        param.token = $user.token;
+        var param = $user.data.location;
+        param.token = $user.data.token;
 
         if (laundrySekitar === null) { // cek apakah data laundry sekitar sudah ada (menu agen laundry)
             console.log("call WS laundry kiloan di sekitar");
@@ -523,7 +537,7 @@ window.$newOrder = {// buat di pake di pgOrder
         $$('#txt_agen').html($newOrder.agen_laundry.nama + "<p>" + $newOrder.agen_laundry.alamat + "</p>");
         $$('#txt_jarakLaundry').html(func_jarak($newOrder.agen_laundry.posisi) + " Km");
         var listLayanan = "";
-        if ($newOrder.data.jenis_layanan === '1') {
+        if ($newOrder.data.jenis_layanan === '1') { // kiloan
 
             try {
                 var row = $newOrder.data.produk;
@@ -537,7 +551,9 @@ window.$newOrder = {// buat di pake di pgOrder
                         '<div class="item-inner">' +
                         '<div class="item-title-row">' +
                         '<div class="item-title">' + row.nama + '</div>' +
-                        '<div class="item-after"><span class="itemSubTotal">' + func_numRp(row.sub_total) + '</span>&nbsp;/<span class="itemQty">' + row.jumlah + '</span> Kg <a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"></span></a></div>' +
+                        '<div class="item-after">' +
+                        '<span class="color-teal"><span class="itemSubTotal">' + func_numRp(row.sub_total) + '</span>&nbsp;/<span class="itemQty">' + row.jumlah + '</span> Kg </span>' +
+                        '<a href="#" class="popOpsi"> &nbsp; &nbsp; &nbsp; <span class="fa fa-ellipsis-v fa-2x"></span></a></div>' +
                         '</div>' +
                         '<div class="item-subtitle">Harga ' + func_numRp(row.harga) + '</div>' +
                         '</div>' +
@@ -546,8 +562,11 @@ window.$newOrder = {// buat di pake di pgOrder
                 LDR.alert("Tidak ada produk yg dipilih");
             }
 
+            // Untuk laundry kiloan, karena cuma 1 produk maka sub total = grand total
+            $newOrder.data.grand_total = row.sub_total;
+
             $$('#ul_layanan').html(listLayanan);
-            $$('#txt_grandTotal').html(func_numRp(row.sub_total));
+            $$('#txt_grandTotal').html('<b class="color-teal">' + func_numRp($newOrder.data.grand_total) + '</b>');
 
         }
     },
@@ -695,7 +714,7 @@ function func_timeRel(time)
 function func_jarak(lokasiLaundry)
 {
     // untuk menghitung jarak KM dari lokasi A, ke B
-    return Math.round(haversine(Pengguna.data.lokasi, lokasiLaundry));
+    return Math.round(haversine($user.profil.posisi, lokasiLaundry));
 }
 
 var rating = new Array();
@@ -965,8 +984,8 @@ LDR.onPageInit('pgLaundry', function (page)
     $$('#tab_sekitar').on('show', function ()
     {
         if (window.pgLaundry === 0) {
-            var param = $user.location;
-            param.token = $user.token;
+            var param = $user.data.location;
+            param.token = $user.data.token;
 
             WS.get("laundry/sekitar/", param, function ()
             {
@@ -1134,7 +1153,7 @@ LDR.onPageInit('pgTracking', function (page)
         if (kode === '') {
             LDR.alert("Isikan kode order kamu");
         } else {
-            WS.get('tracking/', {"token": $user.token, "id": kode}, function ()
+            WS.get('tracking/', {"token": $user.data.token, "id": kode}, function ()
             {
                 if (WS.result.result_code !== '00') {
                     LDR.alert(WS.result.result_msg);
@@ -1175,6 +1194,8 @@ LDR.onPageInit('pgTracking', function (page)
 //======================================
 LDR.onPageInit('pgOrder', function (page)
 {
+    // saat pgOrder di buka, isikan nilai default ke form
+
 
     $$('#f_layanan').on('change', function ()
     {
@@ -1316,7 +1337,7 @@ LDR.onPageInit('pgOrder', function (page)
                 },
                 function ()
                 {
-                    LDR.alert('You clicked Cancel button');
+                    //LDR.alert('You clicked Cancel button');
                 }
         );
     });
@@ -1337,7 +1358,8 @@ LDR.onPageInit('pgOrder', function (page)
 
     $$('#btn_submitOrder').on('click', function ()
     {
-        LDR.alert("Proses submit order");
+        LDR.alert("Proses submit order \n" + JSON.stringify($newOrder.data));
+        console.log(JSON.stringify($newOrder.data));
     });
 
     $$('#btn_hapusOrder').on('click', function ()
@@ -1354,7 +1376,7 @@ LDR.onPageInit('pgOrder', function (page)
                 },
                 function ()
                 {
-                    LDR.alert('Batal di hapus');
+                    //LDR.alert('Batal di hapus');
                 }
         );
     });
