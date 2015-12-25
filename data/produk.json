@@ -1,0 +1,381 @@
+[
+  {
+    "id": 0,
+    "nama": "Laundry Kiloan",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 1,
+    "nama": "Rok Bawah",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 2,
+    "nama": "Long Dress",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 3,
+    "nama": "Long Rok",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 4,
+    "nama": "Blouse Tebal",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 5,
+    "nama": "Blouse Tipis",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 6,
+    "nama": "Rok & Blouse",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 7,
+    "nama": "Kebaya Panjang",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 8,
+    "nama": "Kebaya Pengantin",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 9,
+    "nama": "Pakaian Pengantin",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 10,
+    "nama": "Piyama satu set",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 11,
+    "nama": "Kimono",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 12,
+    "nama": "Baju Kurung",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 13,
+    "nama": "Jas",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 14,
+    "nama": "Jas Setelan",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 15,
+    "nama": "Safari",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 16,
+    "nama": "Safari setelan",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 17,
+    "nama": "Celana panjang",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 18,
+    "nama": "Celana pendek",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 19,
+    "nama": "Celana jeans",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 20,
+    "nama": "Kemeja",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 21,
+    "nama": "T-shirt",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 22,
+    "nama": "Jacket",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 23,
+    "nama": "Jas mandi",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 24,
+    "nama": "Mantel besar",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 25,
+    "nama": "Mantel kecil",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 26,
+    "nama": "Baju muslim",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 27,
+    "nama": "Baju panas",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 27,
+    "nama": "Baju tidur wanita",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 29,
+    "nama": "Kebaya beludru",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 30,
+    "nama": "Jas beludru",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 31,
+    "nama": "Kemeja biasa anak",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 32,
+    "nama": "Celana panjang anak",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 33,
+    "nama": "Celana pendek anak",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 34,
+    "nama": "Rok/blouse/terusan anak",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 35,
+    "nama": "Baju pesta anak",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 36,
+    "nama": "Selimut tebal",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 37,
+    "nama": "Selimut tipis",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 38,
+    "nama": "Taplak meja (long)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 39,
+    "nama": "Taplak meja (short)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 40,
+    "nama": "Sprei panjang",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 41,
+    "nama": "Sprei rempel",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 42,
+    "nama": "Sarung bantal/guling",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 43,
+    "nama": "Sarung bantal/kursi",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 44,
+    "nama": "Jaket kulit",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 45,
+    "nama": "Kain gordyn tipis (per meter)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 46,
+    "nama": "Kain gordyn tebal (per meter)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 47,
+    "nama": "Selendang panjang",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 48,
+    "nama": "Selendang pendek",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 49,
+    "nama": "Karpet tebal (per meter)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 50,
+    "nama": "Karpet tipis (per meter)",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 51,
+    "nama": "Boneka besar",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 52,
+    "nama": "Boneka sedang",
+    "foto": "kiloan.jpg"
+  },{
+    "id": 53,
+    "nama": "Boneka kecil",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 54,
+    "nama": "Kain jok mobil",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 55,
+    "nama": "Bed cover tebal",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 56,
+    "nama": "Bed cover tipis",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 57,
+    "nama": "Handuk besar",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 58,
+    "nama": "Handuk sedang",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 59,
+    "nama": "Handuk kecil",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 60,
+    "nama": "Kaos singlet",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 61,
+    "nama": "B.H",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 62,
+    "nama": "Baju pesta dewasa",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 63,
+    "nama": "Dasi",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 64,
+    "nama": "Celana/rok beludru",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 65,
+    "nama": "Selendang songket",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 66,
+    "nama": "Mukena/rukuh",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 67,
+    "nama": "Tas dari kain",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 68,
+    "nama": "Sajadah",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 69,
+    "nama": "Topi",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 70,
+    "nama": "Sarung songket",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 71,
+    "nama": "Sarung biasa",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 72,
+    "nama": "Rompi",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 73,
+    "nama": "Kasur",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 74,
+    "nama": "Sepatu",
+    "foto": "kiloan.jpg"
+  },
+  {
+    "id": 75,
+    "nama": "Koper",
+    "foto": "kiloan.jpg"
+  }
+]
